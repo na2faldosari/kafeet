@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>كَفيت · وكيلٌ يُغلق الشكوى</title>
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/woff2/thmanyah-serif-display-black.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/woff2/thmanyah-sans-medium.woff2">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    :root{
+      --lead:#002134; --lead-soft:#CAE6F1; --lead-deep:#001420;        /* هوية مصرف الإنماء — كحلي رسمي (مصدر: alinma.com) */
+      --law:#01BA6C; --law-soft:#A9E6C2; --law-deep:#0C5A3A;            /* قانون/محرّك/شرعي/صحيح — أخضر (نفاذ/ساما) */
+      --ai:#F89818; --ai-soft:#F8D49A; --ai-deep:#8A5206;              /* ذكاء/Claude — برتقالي */
+      --alert:#E23B33; --alert-soft:#F2B4B0; --alert-deep:#8E1A14;      /* خطأ/ساذج — أحمر بارز */
+      --customer:#8C8579; --sim:#6B7280; --muted:#5C5C56;
+      --violet-tint:#EDECFA; --law-tint:#E7F7EF; --ai-tint:#FCF1DE; --alert-tint:#FBE3E1;  /* تلميحة اللافندر #837FD8 من هوية الإنماء */
+      --paper-line:#E7E0D2; --paper-2:#EFEAE0;
+    }
+    html[dir="ltr"]{ direction:ltr; }
+    body{ background:var(--paper); color:var(--ink); }
+    .wrap{ max-inline-size:78rem; margin-inline:auto; padding-inline:var(--s-3); }
+
+    /* الترويسة */
+    .head{ padding-block:var(--s-4) var(--s-2); display:flex; align-items:flex-end; justify-content:space-between; gap:var(--s-3); flex-wrap:wrap; }
+    .brand{ display:flex; align-items:center; gap:var(--s-2); }
+    .glyph{ inline-size:54px; block-size:54px; border-radius:16px; background:var(--lead); color:var(--paper-pure);
+      font-family:var(--font-display); font-weight:900; font-size:1.7rem; display:grid; place-items:center; line-height:1; }
+    .brand h1.display{ font-size:clamp(2.1rem,4vw,3rem); letter-spacing:-.02em; }
+    .brand .sub{ font-family:var(--font-ui); color:var(--muted); font-size:var(--t-small); margin-block-start:.15rem; }
+    .hook{ font-family:var(--font-ui); color:var(--muted); font-size:var(--t-meta); margin-block-start:.35rem; }
+    .hook b{ color:var(--alert-deep); font-weight:700; }
+    .prob{ display:grid; gap:.4rem; margin-block-end:.6rem; }
+    .prob .p-row{ border-radius:10px; padding:.5rem .7rem; font-family:var(--font-ui); font-size:.82rem; line-height:1.55; background:var(--paper-2); color:var(--muted); }
+    .prob .p-row.with{ background:var(--violet-tint); color:var(--lead-deep); }
+    .scope-title{ font-family:var(--font-ui); font-size:var(--t-meta); font-weight:700; color:var(--muted); margin-block-end:.5rem; }
+    .scope-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; }
+    @media (max-width:880px){ .scope-grid{ grid-template-columns:1fr; } }
+    .sc{ border-radius:12px; padding:.7rem .8rem; font-family:var(--font-ui); font-size:.8rem; line-height:1.6; }
+    .sc .sc-h{ font-weight:700; margin-block-end:.25rem; }
+    .sc.ok{ background:var(--law-tint); color:var(--law-deep); }
+    .sc.gate{ background:var(--violet-tint); color:var(--lead-deep); }
+    .sc.never{ background:var(--alert-tint); color:var(--alert-deep); }
+    .head-meta{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+    .pill{ font-family:var(--font-ui); font-size:var(--t-meta); padding:.32em .8em; border-radius:999px; border:1px solid var(--paper-line); color:var(--muted); background:var(--paper-pure); }
+    .pill b{ color:var(--ink); }
+
+    /* أدوات التحكّم */
+    .controls{ display:flex; gap:.7rem; align-items:center; flex-wrap:wrap; background:var(--paper-pure);
+      border:1px solid var(--paper-line); border-radius:var(--radius); padding:.7rem; margin-block-end:var(--s-3); }
+    .seg{ display:flex; gap:.25rem; background:var(--paper-2); border-radius:12px; padding:.25rem; }
+    .seg button{ font-family:var(--font-ui); font-weight:500; font-size:.9rem; border:0; background:transparent; color:var(--muted);
+      padding:.5rem .9rem; border-radius:9px; cursor:pointer; transition:all .15s ease; }
+    .seg button.active{ background:var(--lead); color:var(--paper-pure); font-weight:700; }
+    .field{ display:flex; align-items:center; gap:.5rem; margin-inline-start:auto; color:var(--muted); font-family:var(--font-ui); font-size:.85rem; }
+    .field input{ font-family:var(--font-ui); border:1px solid var(--paper-line); border-radius:10px; padding:.45rem .6rem; background:var(--paper-pure); color:var(--ink); }
+    .btn-reg{ font-family:var(--font-ui); font-weight:700; font-size:.9rem; background:transparent; color:var(--ink);
+      border-radius:999px; padding:.55em 1.2em; cursor:pointer; box-shadow:inset 0 0 0 2px var(--ink); transition:all .15s ease; }
+    .btn-reg:hover{ transform:translateY(-1px); }
+    .btn-reg.lit{ background:var(--ink); color:var(--paper); }
+
+    /* الشبكة */
+    .grid{ display:grid; grid-template-columns:380px 1fr; gap:var(--s-3); align-items:start; }
+    @media (max-width:880px){ .grid{ grid-template-columns:1fr; } }
+
+    /* الهاتف */
+    .phone{ background:var(--paper-pure); border:1px solid var(--paper-line); border-radius:26px; padding:var(--s-2); box-shadow:0 2px 8px rgba(20,18,30,.05); }
+    .phone-head{ display:flex; align-items:center; justify-content:space-between; padding:.4rem .5rem .7rem; border-block-end:1px solid var(--paper-2); margin-block-end:.6rem; }
+    .phone-head .b{ font-family:var(--font-display); font-weight:700; }
+    .phone-body{ max-block-size:580px; overflow-y:auto; }
+
+    /* صفوف الكشف */
+    .txn{ display:flex; align-items:center; justify-content:space-between; padding:.7rem .8rem; border-radius:12px; margin-block-end:.5rem; background:var(--paper); border:1px solid var(--paper-2); }
+    .txn.hot{ background:var(--violet-tint); border-color:var(--lead-soft); }
+    .txn .m{ font-family:var(--font-ui); font-weight:500; }
+    .txn .m small{ color:var(--muted); font-weight:400; }
+    .txn .ref{ color:var(--muted); font-size:var(--t-meta); margin-block-start:.15rem; }
+    .txn .amt{ font-family:var(--font-ui); font-weight:700; }
+    .txn .hotlbl{ color:var(--lead); font-size:var(--t-meta); margin-block-start:.15rem; }
+    .hint{ text-align:center; color:var(--muted); font-family:var(--font-ui); font-size:var(--t-small); margin-block-start:.8rem; }
+    .hint b{ color:var(--lead); }
+
+    /* تدفّق الإجراءات — تظليل خفيف + نقطة فاعل */
+    .stream>*+*{ margin-block-start:.6rem; }
+    @keyframes stepIn{ from{ transform:translateY(10px); } to{ transform:none; } }
+    .step{ background:var(--paper-pure); border:1px solid var(--paper-line); border-radius:14px; padding:.7rem .85rem;
+      opacity:1; animation:stepIn .38s cubic-bezier(.2,.7,.2,1); }
+    .step.law{ background:var(--law-tint); --dot:var(--law); }
+    .step.ai{ background:var(--ai-tint); --dot:var(--ai); }
+    .step.customer{ background:var(--paper-pure); --dot:var(--customer); }
+    .step.gate{ background:var(--ink); color:var(--paper); border-color:var(--ink); --dot:#FFFFFF; }
+    .step .top{ display:flex; align-items:center; justify-content:space-between; margin-block-end:.3rem; }
+    .actor{ font-family:var(--font-ui); font-size:var(--t-meta); font-weight:700; display:inline-flex; align-items:center; gap:.4rem; }
+    .actor::before{ content:""; inline-size:8px; block-size:8px; border-radius:50%; background:var(--dot,var(--muted)); }
+    .step.law .actor{ color:var(--law-deep); } .step.ai .actor{ color:var(--ai-deep); }
+    .step.gate .actor{ color:var(--paper); } .step.customer .actor{ color:var(--muted); }
+    .step .ts{ font-family:var(--font-ui); font-size:.72rem; color:var(--muted); }
+    .step.gate .ts{ color:#BDB8A8; }
+    .step .body{ font-family:var(--font-text); font-size:.95rem; line-height:1.7; }
+    .step .tagline2{ color:var(--muted); font-size:.72rem; margin-block-start:.25rem; }
+    .step.gate .tagline2{ color:#BDB8A8; }
+    .gate-actions{ margin-block-start:.6rem; display:flex; gap:.5rem; align-items:center; }
+    .gate-actions .ok{ font-family:var(--font-ui); font-weight:700; background:var(--law); color:#063225; border:0; border-radius:999px; padding:.5em 1.2em; cursor:pointer; }
+    .gate-actions .stop{ font-family:var(--font-ui); background:transparent; color:var(--alert); border:1px solid var(--alert); border-radius:999px; padding:.5em 1em; cursor:pointer; }
+    .gate-done{ color:var(--law-soft); font-family:var(--font-ui); font-size:.85rem; }
+
+    /* بطاقات اليمين */
+    .card{ background:var(--paper-pure); border:1px solid var(--paper-line); border-radius:var(--radius); padding:var(--s-3); box-shadow:0 2px 8px rgba(20,18,30,.04); }
+    .card-head{ display:flex; align-items:center; justify-content:space-between; margin-block-end:var(--s-2); gap:.6rem; }
+    .card-head h2{ font-size:1.35rem; }
+    .card-head .sub{ color:var(--muted); font-family:var(--font-ui); font-size:var(--t-small); }
+    .badge{ font-family:var(--font-ui); font-size:var(--t-meta); font-weight:700; padding:.28em .8em; border-radius:999px; }
+    .badge.good{ background:var(--law-tint); color:var(--law-deep); }
+    .badge.warn{ background:var(--alert-tint); color:var(--alert-deep); }
+    .badge.ai{ background:var(--ai-tint); color:var(--ai-deep); }
+
+    /* المهلة */
+    .dl-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.7rem; margin-block-end:var(--s-2); }
+    .dl-box{ border-radius:12px; padding:.8rem; }
+    .dl-box .lbl{ font-family:var(--font-ui); font-size:var(--t-meta); color:var(--muted); margin-block-end:.25rem; }
+    .dl-box .date{ font-family:var(--font-display); font-weight:900; font-size:1.7rem; line-height:1; }
+    .dl-box .note{ font-family:var(--font-ui); font-size:var(--t-meta); margin-block-start:.3rem; }
+    .dl-correct{ background:var(--law-tint); border:1px solid var(--law-soft); grid-column:1 / -1; }
+    .dl-correct .date,.dl-correct .note{ color:var(--law-deep); }
+    .dl-semi{ background:#FBF3E3; border:1px solid #E8D5A8; }
+    .dl-semi .date{ color:#B07D1A; text-decoration:line-through; text-decoration-color:rgba(176,125,26,.45); }
+    .dl-semi .note{ color:#8A6A1A; }
+    .dl-naive{ background:var(--alert-tint); border:1px solid var(--alert-soft); }
+    .dl-naive .date{ color:var(--alert); text-decoration:line-through; text-decoration-color:rgba(226,59,51,.5); }
+    .dl-naive .note{ color:var(--alert-deep); }
+
+    /* التقويم */
+    .cal{ overflow-x:auto; padding-block-end:.3rem; }
+    .cal-row{ display:flex; gap:.4rem; }
+    .cal-cell{ flex:0 0 auto; inline-size:62px; text-align:center; border-radius:12px; padding:.5rem .3rem; border:1px solid var(--paper-line); background:var(--paper); }
+    .cal-cell .dw{ font-family:var(--font-ui); font-size:.62rem; color:var(--muted); }
+    .cal-cell .dn{ font-family:var(--font-ui); font-weight:700; font-size:.9rem; margin-block:.15rem; }
+    .cal-cell .cl{ font-size:.58rem; line-height:1.2; min-block-size:1.6rem; display:flex; align-items:center; justify-content:center; color:var(--muted); }
+    .cal-cell.filed{ background:var(--violet-tint); border-color:var(--lead-soft); color:var(--lead-deep); }
+    .cal-cell.weekend{ background:var(--paper-2); color:#AAA49A; }
+    .cal-cell.holiday{ background:var(--alert-tint); border-color:var(--alert-soft); color:var(--alert-deep); }
+    .cal-cell.deadline{ box-shadow:0 0 0 2px var(--law); }
+    .cal-cell.naive{ box-shadow:0 0 0 2px var(--alert); }
+    .cal-cell .mk{ font-size:.58rem; font-weight:700; }
+    .cal-cell.deadline .mk{ color:var(--law-deep); } .cal-cell.naive .mk{ color:var(--alert-deep); }
+    .cite{ color:var(--muted); font-family:var(--font-ui); font-size:var(--t-meta); line-height:1.7; margin-block-start:var(--s-2); }
+
+    /* الخطاب */
+    .letter{ font-family:var(--font-text); line-height:1.95; font-size:.95rem; white-space:pre-wrap; background:var(--paper); border:1px solid var(--paper-line); border-radius:12px; padding:var(--s-3); }
+    .shariah{ margin-block-start:.8rem; background:var(--law-tint); border:1px solid var(--law-soft); border-radius:12px; padding:.7rem .85rem; font-size:.85rem; line-height:1.7; color:var(--law-deep); font-family:var(--font-ui); }
+    .shariah b{ color:var(--law); }
+
+    /* وضع الرقيب */
+    .reg-table{ inline-size:100%; border-collapse:collapse; font-family:var(--font-ui); font-size:.82rem; text-align:start; }
+    .reg-table th{ color:var(--muted); font-weight:500; padding-block:.4rem; text-align:start; font-size:var(--t-meta); }
+    .reg-table td{ padding-block:.5rem; border-block-start:1px solid var(--paper-2); }
+    .reg-table .seq{ color:var(--muted); } .reg-table .h{ color:var(--law-deep); } .reg-table .ph{ color:var(--muted); }
+    .a-tag{ font-family:var(--font-ui); font-size:.7rem; font-weight:700; padding:.18em .55em; border-radius:999px; }
+    .a-tag.customer{ background:var(--paper-2); color:var(--muted); } .a-tag.ai{ background:var(--ai-tint); color:var(--ai-deep); }
+    .a-tag.law{ background:var(--law-tint); color:var(--law-deep); } .a-tag.gate{ background:var(--ink); color:var(--paper); }
+
+    /* شريط الصدق */
+    .honesty{ margin-block-start:var(--s-2); text-align:center; color:var(--muted); font-family:var(--font-ui); font-size:var(--t-meta); line-height:1.9; padding-inline:var(--s-2); }
+    .honesty .g{ color:var(--law-deep); font-weight:700; } .honesty .a{ color:var(--ai-deep); font-weight:700; } .honesty .r{ color:var(--sim); font-weight:700; }
+
+    .scrollthin::-webkit-scrollbar{ height:7px; width:7px; } .scrollthin::-webkit-scrollbar-thumb{ background:var(--paper-2); border-radius:9px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="head">
+      <div class="brand">
+        <div class="glyph">كَ</div>
+        <div>
+          <h1 class="display">كَفيت</h1>
+          <div class="sub" id="tagEl">يتولّى شكوى العميل على مصرفه حتى إغلاقها ضمن المهلة النظامية، وفق أنظمة البنك المركزي السعودي (ساما)</div>
+          <div class="hook" id="hookEl">84.3% من شكاوى عملاء البنوك سببها زمن المعالجة (PwC×DataEQ، المؤشر المصرفي السعودي 2024)</div>
+        </div>
+      </div>
+      <div class="head-meta">
+        <button id="langBtn" class="pill" style="cursor:pointer;font-weight:700">EN</button>
+        <span class="pill" id="pillSim">داخل تطبيق الإنماء · محاكاة</span>
+        <span class="pill"><span id="assumedTodayLbl">اليوم الافتراضي:</span> <b id="todayPill" class="num">—</b></span>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="seg" id="scenarioSeg">
+        <button data-key="A_DUPLICATE_CHARGE" class="active">خصم مكرر · 5 أيام</button>
+        <button data-key="B_UNAUTHORIZED_CARD">بطاقة غير مصرّح بها · 7 أيام</button>
+      </div>
+      <button id="playBtn" class="btn">▶ بدء المعالجة</button>
+      <button id="regBtn" class="btn-reg">⚖︎ وضع الرقيب</button>
+      <div class="field">
+        <label for="filedInput" id="filedLbl">تاريخ تقديم الشكوى</label>
+        <input id="filedInput" type="date" class="num" min="2025-08-01" max="2025-10-31" />
+        <span class="pill" id="filedHint">غيّره، وشاهد المحرّك يعيد الحساب لحظياً</span>
+      </div>
+    </div>
+
+    <main class="grid">
+      <section class="phone">
+        <div class="phone-head">
+          <span class="b" id="bankEl">مصرف الإنماء</span>
+          <span class="num" id="acctRef" style="color:var(--muted);font-size:.8rem"></span>
+        </div>
+        <div id="phoneBody" class="phone-body scrollthin"></div>
+      </section>
+
+      <section>
+        <div class="stack">
+          <div id="deadlineCard" class="card"></div>
+          <div id="letterCard" class="card" hidden></div>
+          <div id="regulatorCard" class="card" hidden></div>
+          <div class="card" id="scopeCard"></div>
+          <div class="honesty" id="honesty">
+            إفصاحٌ كامل: <span class="g">قيد التنفيذ الآن</span> = حساب المهلة والسجل والتوثيق ·
+            <span class="a">مُولّد بـ Claude مسبقاً</span> = التصنيف ونص الاعتراض ·
+            <span class="r">محاكاة</span> = الربط مع أنظمة الإنماء ونفاذ وساما تهتم.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="data.js?v=16"></script>
+  <script src="engine.js?v=16"></script>
+  <script src="app.js?v=16"></script>
+</body>
+</html>

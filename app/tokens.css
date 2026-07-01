@@ -1,0 +1,81 @@
+/* ============================================================
+   نظام تصميم نايف — التوكنات + أساس RTL
+   استورده بعد fonts.css:  <link rel="stylesheet" href="fonts.css">
+                            <link rel="stylesheet" href="tokens.css">
+   بدّل --lead لتغيير اللون القائد للسطح كله.
+   ============================================================ */
+:root{
+  /* ---- الخطوط (خط ثمانية، مع بدائل آمنة) ---- */
+  --font-display:'ThmSerifDisplay','Times New Roman',serif;  /* العناوين الكبيرة فقط */
+  --font-text:'ThmSerifText',Georgia,serif;                  /* المتن الطويل */
+  --font-ui:'ThmSans',system-ui,-apple-system,sans-serif;    /* الواجهة، الأرقام، التسميات */
+
+  /* ---- الألوان ---- */
+  --ink:#0E0E0D; --paper:#F6F2E9; --paper-pure:#FEFEFD; --muted:#6B6B66;
+  /* اللون القائد — ثمانية أخضر افتراضاً. بدائل جاهزة أسفله: */
+  --lead:#01BA6C; --lead-soft:#9EE5AE; --lead-deep:#0C3A2A;
+  /* ثمانية #01BA6C · هيداوي برتقالي #F89818 · كورال #E06850
+     أصفر #F8D820 · لافندر #A890D8 · أزرق #78A8D0 · قرمزي #E0512F */
+
+  /* ---- المسافات (أساس 8px) ---- */
+  --s-1:.5rem; --s-2:1rem; --s-3:1.5rem; --s-4:2rem; --s-6:3rem; --s-8:4rem; --s-12:6rem;
+  --maxw:72rem; --radius:14px;
+
+  /* ---- السلّم الطباعي (عربي بسطرٍ سخيّ) ---- */
+  --t-display:clamp(2.6rem,7vw,5.5rem);
+  --t-h1:clamp(2rem,4.5vw,3.25rem);
+  --t-h2:clamp(1.5rem,3vw,2.25rem);
+  --t-h3:1.4rem; --t-body:clamp(1rem,1.2vw,1.18rem);
+  --t-small:.95rem; --t-meta:.82rem;
+  --lh-tight:1.12; --lh-head:1.22; --lh-body:1.9;   /* العربي يحتاج سطراً أعلى من اللاتيني */
+}
+
+/* لون قائد بديل: أضِف data-lead على <html> أو أي حاوية */
+[data-lead="headway"]{--lead:#F89818;--lead-soft:#F8D820;--lead-deep:#7A4A0C}
+[data-lead="coral"]{--lead:#E06850;--lead-soft:#F8C078;--lead-deep:#5A2018}
+[data-lead="ink"]{--lead:#0E0E0D;--lead-soft:#9EE5AE;--lead-deep:#000}
+
+*{box-sizing:border-box}
+html{direction:rtl}
+body{
+  margin:0;font-family:var(--font-text);font-size:var(--t-body);line-height:var(--lh-body);
+  color:var(--ink);background:var(--paper);text-align:start;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-feature-settings:'liga' 1,'rlig' 1;   /* روابط عربية */
+}
+
+/* ---- محاذاة منطقية: استخدم start/end لا left/right ---- */
+.container{max-inline-size:var(--maxw);margin-inline:auto;padding-inline:var(--s-4)}
+.stack>*+*{margin-block-start:var(--s-3)}
+.section{padding-block:var(--s-12)}
+
+/* ---- الطباعة (الحرف هو البطل) ---- */
+.display{font-family:var(--font-display);font-weight:900;font-size:var(--t-display);line-height:var(--lh-tight);letter-spacing:-.01em}
+h1,.h1{font-family:var(--font-display);font-weight:800;font-size:var(--t-h1);line-height:var(--lh-head);margin:0}
+h2,.h2{font-family:var(--font-display);font-weight:700;font-size:var(--t-h2);line-height:var(--lh-head);margin:0}
+h3,.h3{font-family:var(--font-display);font-weight:700;font-size:var(--t-h3);margin:0}
+p{margin:0 0 var(--s-3)}
+.ui{font-family:var(--font-ui)}
+.lead-text{color:var(--lead)}
+.meta{font-family:var(--font-ui);font-size:var(--t-meta);color:var(--muted);letter-spacing:.02em}
+
+/* ---- أرقام لاتينية صحيحة داخل RTL (قاعدة ثمانية: 1،2،3) ---- */
+.num{font-family:var(--font-ui);font-feature-settings:'lnum' 1;direction:ltr;unicode-bidi:embed;display:inline-block}
+
+/* ---- مصطلح/اسم إنجليزي داخل جملة عربية بلا تكسّر ---- */
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* ---- زر ---- */
+.btn{font-family:var(--font-ui);font-weight:700;background:var(--lead);color:var(--paper-pure);
+  border:0;border-radius:999px;padding:.72em 1.6em;cursor:pointer;font-size:1rem;
+  transition:transform .15s ease,filter .15s ease}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.btn--ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* ---- بطاقة (ظلّ خفيف لا ثقيل) ---- */
+.card{background:var(--paper-pure);border-radius:var(--radius);padding:var(--s-4);
+  box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 34px rgba(20,18,30,.06)}
+
+/* ---- تظليل العنوان (للعناوين الكبيرة فقط) ---- */
+.tag{background:var(--lead);color:var(--paper-pure);padding:.08em .4em;border-radius:8px;
+  font-family:var(--font-display);box-decoration-break:clone;-webkit-box-decoration-break:clone}
