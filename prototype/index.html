@@ -1,0 +1,1212 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>كَفيت — كل قرار آلي يصل العميل ومعه سببه | مصرف الإنماء</title>
+<link rel="stylesheet" href="fonts/plex-local.css">
+<style>
+/* ============ Tokens (هوية الإنماء — ملف 09) ============ */
+:root{
+  --bg:#0B2836; --card:#123A4C; --card2:#16404F;
+  --coral:#F2A28C; --coral-t:#F2A48F;
+  --mint:#DCEFDD; --mint-t:#4C8A5C; --ok:#7CC98F;
+  --text:#F5F7F8; --muted:#9FB4BD; --muted-hi:#C4D3DA;
+  --danger:#E2766B; --pain:#3A1712; --pill:#F2F0EB;
+  --amber:#E8C07D; --info:#8FBED1;
+  --stage:#06141D; --line:#16404F;
+  --r-card:24px; --r-tile:20px; --r-pill:999px;
+  font-family:'IBM Plex Sans Arabic','Noto Sans Arabic',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--stage);color:var(--text);font-family:inherit}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ============ البوابة (Hero) ============ */
+#hero{position:fixed;inset:0;background:radial-gradient(1200px 700px at 50% -10%, #0F3448 0%, var(--stage) 60%);z-index:100;display:flex;align-items:center;justify-content:center;overflow:auto;transition:opacity .5s,visibility .5s}
+#hero.off{opacity:0;visibility:hidden}
+.hero-in{max-width:860px;padding:48px 28px;text-align:center}
+.h-word{font-size:96px;font-weight:700;letter-spacing:-2px;line-height:1;animation:rise .7s .1s both}
+.h-word small{color:var(--coral)}
+.h-sub{font-size:13px;color:var(--muted);letter-spacing:.35em;margin-top:6px;animation:rise .7s .2s both}
+.h-def{font-size:30px;font-weight:700;line-height:1.5;margin-top:34px;animation:rise .7s .35s both}
+.h-def em{font-style:normal;color:var(--coral)}
+.h-p{font-size:16.5px;color:var(--muted-hi);line-height:2;max-width:640px;margin:18px auto 0;animation:rise .7s .5s both}
+.h-p b{color:var(--text)}
+.h-tag{margin-top:22px;font-size:19px;font-weight:700;color:var(--coral-t);animation:rise .7s .6s both}
+/* رسم كيف يفكر */
+.flow{display:flex;align-items:stretch;justify-content:center;gap:0;margin:40px auto 0;max-width:720px;animation:rise .7s .75s both}
+.fnode{flex:1;background:var(--card);border-radius:var(--r-card);padding:18px 14px;position:relative}
+.fnode .fic{width:46px;height:46px;border-radius:16px;background:var(--card2);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:var(--coral)}
+.fnode b{font-size:15.5px;display:block}
+.fnode span{font-size:12px;color:var(--muted);display:block;margin-top:6px;line-height:1.7}
+.fnode::after{content:"";position:absolute;top:0;inset-inline:0;height:3px;border-radius:3px;background:var(--coral);transform:scaleX(0);transform-origin:right}
+.fnode.f1::after{animation:fillbar 1.1s 1.2s both}
+.fnode.f2::after{animation:fillbar 1.1s 2.5s both}
+.fnode.f3::after{animation:fillbar 1.1s 3.8s both}
+.flink{width:54px;display:flex;align-items:center;justify-content:center;position:relative}
+.flink::before{content:"";position:absolute;inset-inline:6px;top:50%;height:2px;background:var(--line)}
+.flink i{width:9px;height:9px;border-radius:50%;background:var(--coral);position:absolute;top:calc(50% - 4.5px);animation:travel 1.3s ease-in-out infinite;box-shadow:0 0 10px var(--coral)}
+.flink.l2 i{animation-delay:.65s}
+@keyframes travel{0%{right:4px;opacity:0}20%{opacity:1}80%{opacity:1}100%{right:calc(100% - 13px);opacity:0}}
+@keyframes fillbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.h-ctas{display:flex;gap:12px;justify-content:center;margin-top:40px;animation:rise .7s .9s both}
+.btn-hero{background:var(--coral);color:#12303F;font-weight:700;font-size:16.5px;border:none;border-radius:var(--r-pill);padding:16px 34px}
+.btn-hero2{background:transparent;color:var(--muted-hi);border:1px solid #2A5266;border-radius:var(--r-pill);padding:16px 26px;font-size:15px}
+.btn-hero2:hover{border-color:var(--coral);color:var(--coral-t)}
+.h-foot{margin-top:34px;font-size:11.5px;color:#3E5865;animation:rise .7s 1s both}
+
+/* ============ الشريط العلوي ============ */
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:18px;padding:14px 26px;background:#06141DF2;backdrop-filter:blur(10px);border-bottom:1px solid #10344699}
+.t-word{font-size:24px;font-weight:700;white-space:nowrap}
+.t-word small{color:var(--coral)}
+.t-def{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-def b{color:var(--muted-hi)}
+.t-actions{margin-inline-start:auto;display:flex;gap:8px;align-items:center}
+.t-btn{background:transparent;border:1px solid #2A5266;color:var(--muted-hi);border-radius:var(--r-pill);padding:9px 16px;font-size:13px;white-space:nowrap}
+.t-btn:hover{border-color:var(--coral);color:var(--coral-t)}
+.t-btn.coral{background:var(--coral);border-color:var(--coral);color:#12303F;font-weight:700}
+.personas{display:flex;gap:6px}
+.p-chip{border:1px solid #2A5266;background:transparent;color:var(--muted-hi);border-radius:var(--r-pill);padding:8px 14px;font-size:13px}
+.p-chip.on{background:var(--pill);border-color:var(--pill);color:#12303F;font-weight:700}
+
+/* ============ المسرح ============ */
+.stage{max-width:1480px;margin:0 auto;padding:20px 26px 40px}
+.sect-label{font-size:12px;color:var(--muted);letter-spacing:.14em;margin:14px 4px 10px;display:flex;align-items:center;gap:10px}
+.sect-label::after{content:"";flex:1;height:1px;background:#10344699}
+
+/* سيناريوهات الألم */
+.scens{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.scen{background:var(--card);border:1px solid transparent;border-radius:var(--r-card);padding:16px;text-align:right;transition:.2s;position:relative;color:var(--text)}
+.scen:hover{border-color:#2A5266;transform:translateY(-2px)}
+.scen.on{border-color:var(--coral)}
+.scen .q{font-size:15.5px;font-weight:700;line-height:1.65;min-height:52px;color:#FFFFFF}
+.scen .q::before{content:"«"}.scen .q::after{content:"»"}
+.scen .src{font-size:11px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px}
+.scen .src i{width:6px;height:6px;border-radius:50%;background:var(--danger);flex:0 0 auto}
+.scen .go{margin-top:12px;font-size:12.5px;color:var(--coral-t);font-weight:600;opacity:0;transition:opacity .18s}
+.scen.starred .go,.scen:hover .go,.scen.on .go{opacity:1}
+.scen .star{position:absolute;top:12px;left:12px;font-size:10px;background:var(--coral);color:#12303F;font-weight:700;border-radius:var(--r-pill);padding:3px 9px}
+.scen.starred{border-color:#F2A28C55}
+.scen.starred .q{padding-inline-end:0;padding-inline-start:78px}
+
+/* الهواتف */
+.duel{display:flex;gap:0;align-items:flex-start;justify-content:center;margin-top:16px;position:relative}
+.side{display:flex;flex-direction:column;align-items:center;gap:10px;flex:0 0 auto}
+.side-tag{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.side-tag .dot{width:8px;height:8px;border-radius:50%}
+.side-tag.pain{color:#E8A79B}.side-tag.pain .dot{background:var(--danger)}
+.side-tag.kf{color:var(--coral-t)}.side-tag.kf .dot{background:var(--ok)}
+.vs{align-self:center;margin:0 22px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:150px}
+.vs .vbadge{width:52px;height:52px;border-radius:50%;background:var(--card);border:1px solid #2A5266;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--muted-hi)}
+.vs .vscore{font-size:12.5px;color:var(--muted-hi);text-align:center;line-height:1.9;background:var(--card);border-radius:var(--r-tile);padding:10px 14px;display:none;min-width:150px}
+.vs .vscore.show{display:block}
+.vs .vscore b{display:block;font-size:13px}
+.vs .vscore .pain-line{color:#E8A79B}.vs .vscore .kf-line{color:var(--ok)}
+.phone{width:352px;aspect-ratio:375/812;height:auto;background:var(--bg);border-radius:46px;border:6px solid #050F16;box-shadow:0 24px 70px #00000088;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.phone.flash{animation:phflash .8s ease}
+@keyframes phflash{0%{box-shadow:0 0 0 0 #F2A28C88}60%{box-shadow:0 0 0 18px #F2A28C00}100%{box-shadow:0 24px 70px #00000088}}
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:11px 20px 3px;font-size:12px;font-weight:600;flex:0 0 auto}
+.sb-right{display:flex;gap:5px;align-items:center;font-size:10.5px}
+.batt{width:20px;height:10px;border:1.5px solid var(--muted);border-radius:3px;position:relative}
+.batt::after{content:"";position:absolute;inset:1.5px;left:40%;background:var(--muted);border-radius:1px}
+.apphead{display:flex;justify-content:space-between;align-items:center;padding:8px 16px 4px;flex:0 0 auto}
+.apphead .icons{display:flex;gap:12px;color:var(--coral-t)}
+.who{display:flex;align-items:center;gap:9px}
+.who .nm b{display:block;font-size:14px}
+.who .nm span{font-size:10.5px;color:var(--muted)}
+.avatar{width:40px;height:40px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700}
+.pbody{flex:1;overflow-y:auto;padding:4px 14px 84px;scrollbar-width:none}
+.pbody::-webkit-scrollbar{display:none}
+.nav{position:absolute;bottom:0;inset-inline:0;background:#0A2130F2;backdrop-filter:blur(8px);display:flex;justify-content:space-around;padding:9px 6px 15px;border-top:1px solid #16404F66}
+.nav .ni{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--muted)}
+.nav .ni.on{color:var(--coral)}
+
+/* مكونات داخل الهاتف */
+.balwrap{text-align:center;padding:8px 0 12px}
+.balwrap .acct{color:var(--muted);font-size:13px}
+.balwrap .amt{font-size:34px;font-weight:700;margin:5px 0;display:flex;align-items:center;justify-content:center;gap:7px;font-variant-numeric:tabular-nums}
+.balwrap .amt .dec{font-size:17px;color:var(--muted-hi);font-weight:500}
+.pill-type{display:inline-block;background:var(--pill);color:#12303F;font-weight:700;font-size:12px;border-radius:var(--r-pill);padding:5px 19px}
+.pill-type.frozen{background:var(--pain);color:#F3C9C2}
+.card{background:var(--card);border-radius:var(--r-card);padding:14px;margin-top:11px}
+.card h4{font-size:14.5px;font-weight:700}
+.promo{border-radius:var(--r-card);margin-top:11px;overflow:hidden;position:relative;min-height:92px;display:flex;align-items:center;padding:14px;background:linear-gradient(120deg,#1B2A44,#2A2038)}
+.promo b{font-size:16px;position:relative}
+.promo span{display:block;font-size:11.5px;color:var(--muted-hi);margin-top:3px;position:relative}
+.promo .adtag{position:absolute;bottom:8px;left:10px;font-size:9px;color:#ffffff77}
+.qa{display:flex;gap:8px;justify-content:space-between;margin-top:13px}
+.qa .t{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.qa .ic{width:54px;height:54px;border-radius:var(--r-tile);background:var(--coral);display:flex;align-items:center;justify-content:center;color:#12303F}
+.qa span{font-size:10.5px;color:var(--muted-hi);text-align:center;line-height:1.35}
+.txn{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid #16404F88}
+.txn:last-child{border-bottom:none}
+.txn .tic{width:36px;height:36px;border-radius:12px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted-hi);flex:0 0 auto}
+.txn .tt{flex:1;min-width:0}
+.txn .tt b{font-size:12.5px;display:block}
+.txn .tt span{font-size:10px;color:var(--muted)}
+.txn .amt2{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.txn .amt2.neg{color:var(--muted-hi)}.txn .amt2.pos{color:var(--ok)}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin:13px 2px 2px}
+.sec-head b{font-size:13.5px}
+.sec-head a{color:var(--coral-t);font-size:12px;text-decoration:none}
+.strip{display:flex;gap:9px;align-items:flex-start;background:var(--card);border:1px solid #4C8A5C55;border-radius:var(--r-tile);padding:10px 12px;margin-top:11px;font-size:12px;line-height:1.6;color:var(--muted-hi)}
+.strip b{color:var(--text)}
+.strip button{margin-inline-start:auto;background:none;border:none;color:var(--coral-t);font-size:11px;white-space:nowrap}
+.quiet{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11.5px;margin-top:11px;padding:0 4px}
+.quiet i{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:0 0 auto}
+
+/* الألم — جانب بنك اليوم */
+.painband{background:var(--pain);border:1px solid var(--danger);border-radius:var(--r-tile);padding:11px 13px;margin-top:11px;font-size:12.5px;line-height:1.7;color:#F3C9C2;animation:pop .3s}
+.ivr{background:var(--card);border-radius:var(--r-card);padding:12px 14px;margin-top:11px;font-size:11.5px;color:var(--muted-hi)}
+.ivr .step{display:flex;gap:9px;align-items:center;padding:6px 0;border-bottom:1px dashed #16404F}
+.ivr .step:last-child{border-bottom:none}
+.ivr .step i{width:20px;height:20px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:10px;flex:0 0 auto}
+.ivr .wait{color:var(--danger);font-weight:700;font-variant-numeric:tabular-nums}
+.otpbox{background:var(--card);border-radius:var(--r-card);padding:16px;margin-top:11px;text-align:center;animation:pop .3s}
+.otpbox b{font-size:14px}
+.otpbox .cells{display:flex;gap:7px;justify-content:center;margin:12px 0}
+.otpbox .cells i{width:34px;height:42px;border-radius:10px;background:var(--card2);font-style:normal;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700}
+.otpbox p{font-size:11px;color:var(--muted)}
+.notif{display:flex;gap:9px;background:var(--card2);border-radius:var(--r-tile);padding:10px 12px;margin-top:8px;font-size:11.5px;line-height:1.55;animation:pop .3s}
+.notif .nic{width:30px;height:30px;border-radius:10px;background:var(--pain);color:#F3C9C2;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex:0 0 auto}
+.notif b{display:block;font-size:12px}
+.notif span{color:var(--muted)}
+.chat{display:flex;flex-direction:column;gap:8px;margin-top:11px}
+.msg{max-width:85%;border-radius:16px;padding:10px 13px;font-size:12.5px;line-height:1.7;animation:pop .3s}
+.msg.me{background:var(--card2);align-self:flex-start;border-bottom-left-radius:6px}
+.msg.bank{background:var(--card);align-self:flex-end;border-bottom-right-radius:6px;color:var(--muted-hi)}
+.msg.bank.kf{border:1px solid #4C8A5C44;color:var(--text)}
+.msg small{display:block;font-size:9.5px;color:var(--muted);margin-top:5px}
+
+/* بطاقة سبب القرار */
+.bayan{background:var(--card);border-radius:var(--r-card);margin-top:11px;overflow:hidden;animation:pop .35s}
+.bayan .bar{height:4px}
+.bar.amber{background:var(--amber)}.bar.coral{background:var(--coral)}.bar.mint{background:var(--mint-t)}.bar.info{background:var(--info)}
+.bayan .in{padding:12px 14px 14px}
+.bayan .bh{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.bayan .bic{width:32px;height:32px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.bayan .bh b{font-size:13px}
+.bayan .bh time{margin-inline-start:auto;font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bayan .what{font-size:14.5px;font-weight:700;line-height:1.55;margin-bottom:7px}
+.bayan .why{font-size:12.5px;color:var(--muted-hi);line-height:1.7}
+.whychips{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0}
+.wc{background:var(--card2);border-radius:var(--r-pill);padding:4px 10px;font-size:10.5px;color:var(--muted-hi);font-variant-numeric:tabular-nums}
+.wc b{color:var(--text)}
+.bayan .means{font-size:11.5px;color:var(--muted);line-height:1.7;border-top:1px solid #16404F;padding-top:8px;margin-top:4px}
+.bayan .acts{display:flex;align-items:center;gap:10px;margin-top:11px}
+.btn-coral{background:var(--coral);color:#12303F;font-weight:700;border:none;border-radius:var(--r-pill);padding:11px 18px;font-size:12.5px;flex:1}
+.link-obj{color:var(--coral-t);font-size:11.5px;background:none;border:none;white-space:nowrap}
+.bayan .done{display:flex;align-items:center;gap:7px;margin-top:10px;color:var(--ok);font-size:12px;font-weight:600}
+.factors{background:var(--card2);border-radius:14px;padding:10px 12px;margin:10px 0 2px}
+.fx-h{font-size:10.5px;color:var(--muted-hi);line-height:1.6;margin-bottom:9px}
+.fx-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.fx-l{font-size:11px;color:var(--text);flex:0 0 84px}
+.fx-bar{flex:1;height:7px;border-radius:4px;background:#0E2836;overflow:hidden;direction:ltr}
+.fx-fill{display:block;height:100%;border-radius:4px}
+.fx-fill.up{background:var(--coral)}
+.fx-fill.down{background:var(--mint-t)}
+.fx-n{font-size:9.5px;color:var(--muted);flex:0 0 auto;min-width:74px;text-align:left}
+.fx-f{font-size:9.5px;color:var(--muted-hi);line-height:1.7;border-top:1px solid #16404F;padding-top:7px;margin-top:4px}
+.ruleline{background:var(--card2);border-radius:14px;padding:11px 13px;margin-top:11px;font-size:10.5px;color:var(--muted-hi);line-height:1.75}
+.ruleline b{color:var(--mint-t)}
+.track{background:var(--card);border:1px solid #4C8A5C44;border-radius:var(--r-card);padding:13px 14px;margin-top:11px}
+.track-h{display:flex;align-items:center;gap:10px}
+.track-ic{width:32px;height:32px;flex:0 0 auto;border-radius:10px;background:#123A48;display:flex;align-items:center;justify-content:center;color:var(--mint-t)}
+.track-t{flex:1;min-width:0}
+.track-t b{display:block;font-size:12.5px;color:var(--text)}
+.track-t span{font-size:10.5px;color:var(--mint-t)}
+.track-badge{font-size:9.5px;color:var(--muted-hi);border:1px solid #2A5266;border-radius:var(--r-pill);padding:3px 8px;flex:0 0 auto}
+.track-steps{display:flex;align-items:flex-start;margin:13px 2px 4px;direction:rtl}
+.track-steps .ts{display:flex;flex-direction:column;align-items:center;text-align:center;flex:0 0 auto;width:58px}
+.track-steps .ts i{width:11px;height:11px;border-radius:50%;background:#20485A;border:2px solid #20485A;margin-bottom:6px}
+.track-steps .ts.done i{background:var(--mint-t);border-color:var(--mint-t)}
+.track-steps .ts.now i{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 4px #E0A24733}
+.track-steps .ts span{font-size:9.5px;color:var(--text);line-height:1.3}
+.track-steps .ts em{font-size:8.5px;color:var(--muted);font-style:normal;margin-top:2px}
+.track-steps .ts.now span{color:var(--amber)}
+.track-steps .ts-line{flex:1;height:2px;background:#20485A;margin-top:5px}
+.track-why{font-size:10.5px;color:var(--muted-hi);line-height:1.7;margin-top:9px;border-top:1px solid #16404F;padding-top:9px}
+.sparkwrap{background:var(--card2);border-radius:14px;padding:9px 10px 7px;margin:9px 0 2px}
+.sparkwrap>span{display:block;font-size:9.5px;color:var(--muted);margin-top:5px;line-height:1.6}
+.sparklbl{display:flex;justify-content:space-between;font-size:9.5px;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.gauge{background:var(--card2);border-radius:14px;padding:11px 14px;margin-top:11px}
+.g-title{font-size:10.5px;color:var(--muted-hi);font-weight:600;margin-bottom:9px}
+.g-track{position:relative;height:9px;border-radius:5px;background:#0E2836;overflow:visible}
+.g-track::after{content:"";position:absolute;top:0;bottom:0;right:0;width:32%;background:#3A171266;border-radius:0 5px 5px 0}
+.g-floor{position:absolute;right:32%;top:-5px;width:3px;height:19px;background:var(--danger);border-radius:2px}
+.g-pos{position:absolute;right:64%;top:-3.5px;width:16px;height:16px;border-radius:50%;background:var(--coral);border:3px solid var(--bg);animation:ring 2s ease infinite}
+.g-lbl{display:flex;justify-content:space-between;font-size:9.5px;margin-top:10px;line-height:1.5}
+.g-lbl em{font-style:normal;color:var(--muted)}
+.g-l1{color:var(--danger);text-align:right}
+.g-l2{color:var(--coral-t);text-align:left}
+
+/* الورقة السفلية والسمات */
+.sheet{position:absolute;inset-inline:0;bottom:0;background:var(--card2);border-radius:24px 24px 0 0;padding:8px 16px 20px;transform:translateY(110%);transition:.35s cubic-bezier(.2,.8,.2,1);z-index:30;box-shadow:0 -18px 50px #00000066}
+.sheet.up{transform:none}
+.sheet .grab{width:40px;height:4px;border-radius:2px;background:#2A5266;margin:4px auto 12px}
+.sheet h3{font-size:15.5px;margin-bottom:5px}
+.sheet p{font-size:12.5px;color:var(--muted-hi);line-height:1.75}
+.sheet .acts{display:flex;flex-direction:column;gap:8px;margin-top:13px}
+.btn-dark{background:var(--bg);color:var(--text);border:none;border-radius:var(--r-pill);padding:12px;font-size:13px}
+.scrim{position:absolute;inset:0;background:#000000AA;opacity:0;pointer-events:none;transition:.3s;z-index:25}
+.scrim.on{opacity:1;pointer-events:auto}
+.bio{position:absolute;inset:0;background:#0B2836F0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:40}
+.bio.on{display:flex}
+.bio .ring{width:84px;height:84px;border-radius:50%;border:3px solid var(--coral);display:flex;align-items:center;justify-content:center;animation:ring 1s ease infinite}
+@keyframes ring{50%{transform:scale(1.08);box-shadow:0 0 0 14px #F2A28C22}}
+.bio p{font-size:13px;color:var(--muted-hi)}
+@keyframes pop{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.demo-toast{position:absolute;bottom:76px;inset-inline:24px;background:#020B11E6;color:var(--muted-hi);font-size:11.5px;text-align:center;border-radius:var(--r-pill);padding:9px 14px;z-index:50;opacity:0;transition:.25s;pointer-events:none}
+.demo-toast.show{opacity:1}
+.phone .dead{cursor:pointer}
+
+/* ============ قدرات كَفيت ============ */
+.caps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:18px}
+.pulse-entry{display:flex;align-items:center;gap:11px;width:100%;text-align:right;background:var(--card);border:1px solid #4C8A5C44;border-radius:var(--r-tile);padding:12px 14px;margin-top:11px;color:var(--text);cursor:pointer}
+.pulse-entry:hover{border-color:var(--coral)}
+.pulse-entry .pe-ic{width:34px;height:34px;border-radius:11px;background:var(--card2);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.pulse-entry .pe-t{flex:1}
+.pulse-entry .pe-t b{font-size:13.5px;display:block}
+.pulse-entry .pe-t span{font-size:11px;color:var(--muted);line-height:1.5}
+.pulse-entry .pe-ar{color:var(--coral-t);font-size:18px}
+.cap{background:var(--card);border-radius:var(--r-card);padding:15px 16px;border:1px solid transparent;transition:.25s;text-align:right;position:relative}
+.cap .ch{display:flex;align-items:center;gap:9px}
+.cap .cdot{width:9px;height:9px;border-radius:50%;background:#2A5266;flex:0 0 auto;transition:.3s}
+.cap b{font-size:14.5px}
+.cap .en{font-size:10px;color:var(--muted);letter-spacing:.06em;margin-top:2px;display:block}
+.cap p{font-size:12px;color:var(--muted-hi);line-height:1.7;margin-top:8px;min-height:40px}
+.cap .try{font-size:12px;color:var(--coral-t);font-weight:600;background:none;border:none;padding:0;margin-top:6px;cursor:pointer}
+.cap-hint{display:block;font-size:10.5px;color:var(--muted);margin-top:6px}
+.cap.lit{border-color:var(--coral)}
+.cap.lit .cdot{background:var(--ok);box-shadow:0 0 12px var(--ok)}
+.cap.lit::after{content:"تعمل الآن";position:absolute;top:12px;left:14px;font-size:9.5px;color:var(--ok);font-weight:700}
+
+/* لحظات العميل — مبدل السياق */
+/* مقبض المبلغ — تغييره يعيد حساب القرار حياً */
+.dial{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-top:4px}
+.dial-row{display:flex;align-items:center;gap:16px}
+.dial-row label{color:var(--muted);font-size:14px;white-space:nowrap}
+.dial-row b{color:var(--text);font-size:18px;min-width:118px;text-align:left;font-variant-numeric:tabular-nums}
+#amtRange{flex:1;accent-color:var(--coral-t);height:4px;cursor:pointer}
+.dial-out{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.dial-out .pill{padding:5px 12px;border-radius:999px;font-weight:700;font-size:14px}
+.fx-v{min-width:26px;text-align:center;font-weight:700;font-size:12px;font-variant-numeric:tabular-nums}
+.fx-v.up{color:var(--coral-t)}
+.fx-v.down{color:var(--mint-t)}
+.fx-floor{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(242,162,140,.10);border-inline-start:3px solid var(--coral-t);color:var(--muted-hi);font-size:12.5px;line-height:1.75}
+.dial-sep{height:1px;background:var(--line);margin:16px 0 14px}
+.seg{display:flex;gap:0;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:none;color:var(--muted);font:inherit;font-size:14px;padding:8px 16px;cursor:pointer;white-space:nowrap}
+.seg button.on{background:var(--coral-t);color:#0B2836;font-weight:700}
+.dial-note{color:var(--muted);font-size:13px;margin-inline-start:auto;text-align:left}
+.moments{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:4px}
+.moment{background:var(--card);border:1.5px solid transparent;border-radius:var(--r-card);padding:15px 14px;text-align:right;transition:.2s;color:var(--text);position:relative}
+.moment:hover{border-color:#2A5266;transform:translateY(-2px)}
+.moment.on{border-color:var(--coral);background:#173F51}
+.moment.on::after{content:"الواجهة الآن";position:absolute;top:12px;left:13px;font-size:9.5px;color:var(--coral-t);font-weight:700}
+.moment .mic{width:42px;height:42px;border-radius:14px;background:var(--card2);color:var(--coral);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.moment.on .mic{background:var(--coral);color:#12303F}
+.moment b{font-size:14.5px;display:block;color:#FFFFFF}
+.moment p{font-size:11.5px;color:var(--muted-hi);line-height:1.65;margin-top:5px}
+@media (max-width:1280px){.moments{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:980px){.moments{grid-template-columns:repeat(2,1fr)}}
+
+/* ============ تفصيل سبب القرار (Spotlight) ============ */
+#spot{position:fixed;inset:0;background:#020B11F7;z-index:90;display:none;align-items:center;justify-content:center;padding:30px}
+#spot.on{display:flex}
+.spot-in{display:flex;gap:34px;align-items:center;max-width:1080px;animation:rise .45s both}
+.spot-card{width:400px;flex:0 0 auto;filter:drop-shadow(0 30px 60px #000000AA)}
+.spot-card .bayan{margin:0;transform:scale(1.06)}
+.spot-side h2{font-size:26px;line-height:1.5}
+.spot-side h2 em{font-style:normal;color:var(--coral)}
+.spot-side>p{font-size:14px;color:var(--muted-hi);line-height:1.9;margin-top:10px;max-width:420px}
+.anno{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.an{display:flex;gap:12px;align-items:flex-start}
+.an i{width:30px;height:30px;border-radius:10px;background:var(--card);color:var(--coral);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:13px;flex:0 0 auto}
+.an b{font-size:14px;display:block}
+.an .en2{font-size:10px;color:var(--muted);letter-spacing:.06em}
+.an p{font-size:12.5px;color:var(--muted-hi);line-height:1.7;margin-top:3px}
+.spot-cta{margin-top:24px;display:flex;gap:10px;align-items:center}
+.spot-note{font-size:11px;color:var(--mint-t)}
+
+/* ============ التفعيل (Onboarding) ============ */
+#onb{position:fixed;inset:0;background:#020B11F7;z-index:95;display:none;align-items:center;justify-content:center;padding:26px}
+#onb.on{display:flex}
+.onb-in{width:480px;background:var(--bg);border-radius:28px;overflow:hidden;box-shadow:0 30px 80px #000000AA;animation:rise .4s both}
+.onb-head{padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center}
+.onb-head b{font-size:13px;color:var(--muted)}
+.onb-head button{background:none;border:none;color:var(--muted);font-size:13px}
+.onb-body{padding:10px 28px 6px;min-height:330px}
+.onb-body h3{font-size:22px;line-height:1.5;margin:12px 0 8px}
+.onb-body h3 em{font-style:normal;color:var(--coral)}
+.onb-body>p{font-size:14px;color:var(--muted-hi);line-height:1.9}
+.onb-rows{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.orow{display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:var(--r-tile);padding:12px 14px}
+.orow .oi{width:38px;height:38px;border-radius:13px;background:var(--card2);color:var(--coral);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.orow b{font-size:13.5px;display:block}
+.orow span{font-size:12px;color:var(--muted-hi);line-height:1.65;display:block;margin-top:2px}
+.oswitch{margin-inline-start:auto;width:44px;height:26px;border-radius:13px;background:#2A5266;position:relative;flex:0 0 auto;border:none;transition:.2s}
+.oswitch::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:var(--pill);transition:.2s}
+.oswitch.on{background:var(--coral)}
+.oswitch.on::after{right:21px}
+.onb-ok{width:92px;height:92px;border-radius:50%;background:var(--mint);color:var(--mint-t);display:flex;align-items:center;justify-content:center;margin:26px auto 14px;animation:ring 1.2s ease 2}
+.onb-foot{display:flex;align-items:center;gap:12px;padding:16px 24px 22px}
+.onb-dots{display:flex;gap:6px}
+.onb-dots i{width:7px;height:7px;border-radius:4px;background:#2A5266;transition:.25s}
+.onb-dots i.on{width:20px;background:var(--coral)}
+.onb-foot .spacer{flex:1}
+.btn-onb{background:var(--coral);color:#12303F;font-weight:700;border:none;border-radius:var(--r-pill);padding:12px 26px;font-size:14px}
+
+/* ============ الخاتمة ============ */
+.finale{background:var(--card);border-radius:var(--r-card);padding:34px 32px;margin-top:4px;text-align:center}
+.finale h2{font-size:27px;line-height:1.6;font-weight:700}
+.finale h2 em{font-style:normal;color:var(--coral)}
+.fin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;text-align:right}
+.fin-c{background:var(--card2);border-radius:var(--r-tile);padding:16px}
+.fin-c b{font-size:14px;color:var(--coral-t)}
+.fin-c p{font-size:12.5px;color:var(--muted-hi);line-height:1.8;margin-top:7px}
+.fin-why{font-size:13px;color:var(--muted-hi);line-height:1.9;max-width:760px;margin:20px auto 0}
+.fin-ctas{display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+@media (max-width:980px){.fin-grid{grid-template-columns:1fr}}
+
+/* ============ التذييل ============ */
+.foot{max-width:1480px;margin:0 auto;padding:6px 26px 26px;font-size:10.5px;color:#3E5865;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+@media (max-width:1280px){.scens,.caps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:980px){
+  .duel{flex-direction:column;align-items:center}
+  .vs{margin:14px 0}
+  .spot-in{flex-direction:column;max-height:92vh;overflow:auto}
+  .t-def{display:none}
+  .h-word{font-size:64px}.h-def{font-size:22px}
+  .flow{flex-direction:column;gap:10px}.flink{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ البوابة ============ -->
+<div id="hero">
+  <div class="hero-in">
+    <div class="h-word">كَفيت<small>.</small></div>
+    <div class="h-sub">K F E E T — مصرف الإنماء</div>
+    <h1 class="h-def">كل قرار من بنكك، يوصلك ومعه <em>سببه وخطوتك التالية</em></h1>
+    <p class="h-p">يوقف البنك حوالتك أو يحجز مبلغك — ويوصلك رمز خطأ أو صمت. <b>كَفيت يقول لك: ليش، ووش خطوتك.</b></p>
+    <div class="h-tag">«من حقّك تعرف: ليش صار هذا؟»</div>
+    <div class="flow" aria-label="كيف يعمل كَفيت">
+      <div class="fnode f1"><div class="fic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></svg></div><b>يعرف عاداتك</b><span>متوسط حوالاتك، وجهازك، وأوقاتك — من عملياتك أنت، لا من قاعدة على الجميع</span></div>
+      <div class="flink"><i></i></div>
+      <div class="fnode f2"><div class="fic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h6M14 12h6M12 4v6M12 14v6"/><circle cx="12" cy="12" r="2.4"/></svg></div><b>يطلب منك خطوات أقل</b><span>تأكيد واحد بدل سلسلة تحقّق. أما القرار الأمني فيبقى لنظام الحماية</span></div>
+      <div class="flink l2"><i></i></div>
+      <div class="fnode f3"><div class="fic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div><b>يرسل لك السبب</b><span>ماذا صار، وليش، ووش خطوتك — ومعها حقّك تعترض</span></div>
+    </div>
+    <div class="h-ctas">
+      <button class="btn-hero" onclick="enterStage()">ابدأ التجربة الحية</button>
+    </div>
+    <div class="h-foot">نموذج تفاعلي يعمل دون اتصال — البيانات تجريبية بالكامل | هاكاثون أمد 2026 — نايف الدوسري</div>
+  </div>
+</div>
+
+<!-- ============ الشريط العلوي ============ -->
+<header class="topbar">
+  <div class="t-word">كَفيت<small>.</small></div>
+  <div class="t-def">إضافةٌ تشرح لك قرارات بنكك</div>
+  <div class="t-actions">
+    <button class="t-btn" onclick="openOnb()">تفعيل الخدمة</button>
+    <button class="t-btn" onclick="showHero()">التعريف</button>
+    <button class="t-btn coral" onclick="resetAll()">إعادة العرض</button>
+  </div>
+</header>
+
+<main class="stage">
+  <!-- سيناريوهات الألم -->
+  <div class="sect-label">من أصوات العملاء الموثقة — اختر حالة وقارن بين التجربتين</div>
+  <div class="scens" id="scens"></div>
+
+  <!-- المبارزة -->
+  <div class="duel">
+    <div class="side">
+      <div class="side-tag pain"><span class="dot"></span>بنك اليوم — بدون كَفيت</div>
+      <section class="phone" id="phL">
+        <div class="statusbar"><span id="clkL">8:02</span><div class="sb-right"><span>5G</span><div class="batt"></div></div></div>
+        <div class="apphead">
+          <div class="who"><div class="avatar" id="avL">ع</div><div class="nm"><b id="nmL">عميل الإنماء</b><span>حسابك</span></div></div>
+          <div class="icons"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 14 6 10z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div>
+        </div>
+        <div class="pbody" id="bodyL"></div>
+        <nav class="nav" id="navL"></nav>
+      </section>
+    </div>
+
+    <div class="vs">
+      <div class="vbadge">مقابل</div>
+      <div class="vscore" id="vscore"><b class="pain-line" id="vsPain">—</b><b class="kf-line" id="vsKf">—</b></div>
+    </div>
+
+    <div class="side">
+      <div class="side-tag kf"><span class="dot"></span>مع كَفيت</div>
+      <section class="phone" id="phK">
+        <div class="statusbar"><span id="clkK">8:02</span><div class="sb-right"><span>5G</span><div class="batt"></div></div></div>
+        <div class="apphead">
+          <div class="who"><div class="avatar" id="avK">ع</div><div class="nm"><b id="nmK">عميل الإنماء</b><span>كَفيت يرافقك</span></div></div>
+          <div class="icons"><span style="cursor:pointer" onclick="openQararat()" title="قراراتك"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span></div>
+        </div>
+        <div class="pbody" id="bodyK"></div>
+        <nav class="nav" id="navK"></nav>
+        <div class="scrim" id="scrim" onclick="hideSheet()"></div>
+        <div class="sheet" id="sheet"></div>
+        <div class="bio" id="bio"><div class="ring"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F2A28C" stroke-width="1.6"><path d="M7 4.5C8.5 3.6 10.2 3 12 3s3.5.6 5 1.5M4.5 8c.8-1.2 1.9-2.2 3-3M19.5 8c-.8-1.2-1.9-2.2-3-3M8 12a4 4 0 0 1 8 0c0 3-1 5-2 6.5M12 12c0 2.5-.5 4.5-1.5 6"/></svg></div><p>تأكيد بالسمات الحيوية…</p></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- مقبض الحكم: غيّر المبلغ فيتغيّر القرار · وبدّل ما يراه العميل -->
+  <div class="sect-label">جرّبها بنفسك — حرّك المبلغ، وشوف القرار يتغيّر</div>
+  <div class="dial" id="dial">
+    <div class="dial-row">
+      <label for="amtRange">مبلغ الحوالة</label>
+      <input id="amtRange" type="range" min="500" max="50000" step="100" value="5200" oninput="setAmt(this.value)">
+      <b id="amtOut">5,200 ريال</b>
+    </div>
+    <div class="dial-out" id="dialOut"></div>
+    <div class="dial-sep"></div>
+    <div class="dial-row">
+      <label>وش يشوف؟</label>
+      <div class="seg" id="viewSeg">
+        <button class="on" onclick="setView('client')">شاشة العميل</button>
+        <button onclick="setView('audit')">شاشة فريق البنك</button>
+      </div>
+      <span class="dial-note" id="viewNote"></span>
+    </div>
+  </div>
+
+  <!-- لحظات العميل -->
+  <div class="sect-label">جرّب بنفسك — بدّل لحظة العميل وشاهد واجهة كَفيت تتغير أمامك</div>
+  <div class="moments" id="moments"></div>
+
+  <!-- القدرات -->
+  <div class="sect-label">مكوّنات كَفيت الخمسة — تضيء لحظة عملها في السيناريوهات أعلاه</div>
+  <div class="caps" id="caps"></div>
+
+  <!-- الخاتمة -->
+  <div class="sect-label">الخلاصة</div>
+  <section class="finale">
+    <h2>كل مصرف يملك البيانات…<br><em>كَفيت يحوّلها إلى قرارات يفهمها العميل.</em></h2>
+    <div class="fin-grid">
+      <div class="fin-c"><b>للعميل</b><p>وضوح وثقة: يعرف ما الذي حدث ولماذا، ويملك حق الاعتراض من البطاقة نفسها — دون مكالمة واحدة.</p></div>
+      <div class="fin-c"><b>للمصرف</b><p>كل إشعار سبب قرار يستبق اتصالاً بمركز الخدمة وشكوى محتملة — ويحوّل أصعب لحظات التجربة إلى ولاء.</p></div>
+      <div class="fin-c"><b>للجهة الرقابية</b><p>كل قرار موثق بوقته وسببه، والتحقق فوق الحد الأنظمي في جميع الأحوال — شفافية قابلة للمراجعة.</p></div>
+    </div>
+    <p class="fin-why">مبني على ما يملكه مصرف الإنماء اليوم — بيانات التعاملات، والأجهزة الموثوقة، والمصرفية المفتوحة — إضافة فوق محرك القرار القائم، قابلة للتنفيذ على مراحل تبدأ بالتفسير قبل التكييف.</p>
+    <div class="fin-ctas">
+      <button class="btn-hero" onclick="resetAll();showHero()">أعد التجربة من البداية</button>
+    </div>
+  </section>
+</main>
+
+<div class="foot">
+  <span>كل أرقام السيناريو الرئيسي تُحسب لحظياً من بيانات الشخصية (متوسط + انحراف معياري لآخر 90 يوماً) — بقية الأرقام بيانات تجريبية موسومة.</span>
+  <span>هاكاثون أمد 2026 — نايف الدوسري | يعمل بلا إنترنت</span>
+</div>
+
+<!-- ============ تفصيل سبب القرار ============ -->
+<div id="spot" role="dialog" aria-label="تفصيل سبب القرار">
+  <div class="spot-in">
+    <div class="spot-card" id="spotCard"></div>
+    <div class="spot-side">
+      <h2>هذي مو رسالة خطأ.<br>هذا <em>سببُ القرار</em>.</h2>
+      <p>كُتب هذا الإشعار قبل ثوانٍ من بيانات العميل — مو صورة جاهزة. وهذي أركانه الأربعة:</p>
+      <div class="anno">
+        <div class="an"><i>١</i><div><b>سبب واضح، مو عبارة عامة</b><p>نقول لك السبب الرئيسي بلغة تفهمها. وما نكشف تفاصيل تُعلّم المحتال.</p></div></div>
+        <div class="an"><i>٢</i><div><b>محسوب من عملياتك أنت</b><p>كل رقم هنا طالع من بياناتك: متوسط حوالاتك، وبُعد هذه العملية عن معتادك، وعمر جهازك. مو قاعدة واحدة على الجميع.</p></div></div>
+        <div class="an"><i>٣</i><div><b>خطوات أقل، مو قرار أمني</b><p>كَفيت يقرّر كم خطوة تحقّق نطلبها منك — أقل، لا أكثر. وإذا ارتفع الخطر، ما يقرّر كَفيت شيئاً: القرار لنظام الحماية، وكَفيت يشرحه لك ويفتح لك مسار الحل.</p></div></div>
+        <div class="an"><i>٤</i><div><b>محفوظ في «قراراتك»</b><p>يبقى عندك بوقته وسببه وحقّك تعترض. وينتقل معك لأي قناة، فما تعيد قصتك من أولها.</p></div></div>
+      </div>
+      <div class="spot-cta">
+        <button class="btn-hero" onclick="closeSpot()">كمّل</button>
+        <span class="spot-note" id="spotNote"></span>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:14px;line-height:1.8;max-width:430px">في الإنتاج: المصادر هي سجل المعاملات وبصمة الجهاز والمصرفية المفتوحة (مفعلة في تطبيق الإنماء اليوم)، والإضافة تجلس <b style="color:var(--muted-hi)">فوق</b> محرك القرار القائم — تفسير وتكييف، لا استبدال.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ التفعيل ============ -->
+<div id="onb" role="dialog" aria-label="تفعيل كَفيت">
+  <div class="onb-in">
+    <div class="onb-head"><b id="onbStep">تفعيل كَفيت — خطوة 1 من 4</b><button onclick="closeOnb()">إغلاق ✕</button></div>
+    <div class="onb-body" id="onbBody"></div>
+    <div class="onb-foot">
+      <div class="onb-dots" id="onbDots"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="spacer"></div>
+      <button class="btn-onb" id="onbNext" onclick="onbNext()">التالي</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= المحرك ================= */
+function lcg(seed){let s=seed;return()=>((s=(s*1664525+1013904223)>>>0)/4294967296)}
+function stats(a){const m=a.reduce((x,y)=>x+y,0)/a.length;const sd=Math.sqrt(a.reduce((x,y)=>x+(y-m)**2,0)/a.length);return{mean:m,sd}}
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+const sec=n=>n===1?'ثانية واحدة':n===2?'ثانيتين':n<11?`${n} ثوانٍ`:`${n} ثانية`;
+const fmt2=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function genTransfers(seed,mean,sd,n){const r=lcg(seed);return Array.from({length:n},()=>Math.max(200,mean+(r()*2-1)*sd*1.7))}
+function nowStr(){return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+
+const PERSONAS={
+  client:{key:'client',name:'عميل الإنماء',av:'ع',balance:24480.75,deviceMonths:14,salary:9500,
+    transfers:genTransfers(11,2100,1250,26),
+    scenario:{amount:5200,hour:20,benef:'مستفيد جديد — أُضيف قبل 4 دقائق'},benefAddedMin:4,benefPerYear:1,activeHours:[7,23],
+    caseRef:'KF-2455',caseDesc:'استرجاع خصم مزدوج — أُغلق بنجاح قبل يومين',
+    txns:[['ن ن','نون — تسوق','أمس','-249.00'],['م ط','مطعم','أمس','-86.50'],['س د','سداد — كهرباء','قبل 4 أيام','-1,240.00'],['ر ت','راتب يوليو','اليوم','+9,500.00']]}
+};
+const CTX={normal:'عادي',salary:'يوم راتب',travel:'سفر',pressure:'ضغط مالي',easy:'الوضع الميسّر'};
+
+const S={persona:'client',ctx:'normal',screen:'home',bayans:[],mode:null,frozen:false,kfOff:false,objections:[],view:'client'};
+let runToken=0, tStartK=0, waitTimer=null;
+
+/* ================= أيقونات ================= */
+const IC={
+  bill:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h12v18l-2-1.4L14 21l-2-1.4L10 21l-2-1.4L6 21V3z"/><path d="M9 8h6M9 12h6"/></svg>',
+  transfer:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="12" rx="3"/><path d="M12 4v6m0 0 2.5-2.5M12 10 9.5 7.5"/></svg>',
+  sim:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="3"/><rect x="9" y="11" width="6" height="6" rx="1.5"/></svg>',
+  car:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 15l1.6-5.2A2 2 0 0 1 7.5 8h9a2 2 0 0 1 1.9 1.8L20 15v4h-2.5v-1.5h-11V19H4v-4z"/></svg>',
+  home:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 11l8-7 8 7v9h-5v-6h-6v6H4v-9z"/></svg>',
+  swap:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 8h11l-3-3M17 16H6l3 3"/></svg>',
+  pay:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-2-1.4L14 21l-2-1.4L10 21l-2-1.4L6 21V3z"/></svg>',
+  store:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9l1.5-4h13L20 9M4 9h16M4 9v10h16V9M9 19v-5h6v5"/></svg>',
+  grid:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>',
+  shield:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8C07D" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6l7-3z"/></svg>',
+  shieldPlain:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6l7-3z"/></svg>',
+  check:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7CC98F" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>',
+  okBig:'<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>',
+  riyal:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 4v9a4 4 0 0 0 4 4M11 4v9M6 9.5l9-2M6 13.5l12-2.6M13 17.5l7-1.5M15 4v7"/></svg>'
+};
+const riyalSm='<span class="cur">ريال</span>';
+
+/* ================= السيناريوهات (الألم الحقيقي) ================= */
+const SCENS=[
+  {id:'freeze',star:true,quote:'جمدوا حسابي. ما اتصلوا. ما فسروا. حتى الموظف ما يعرف السبب',src:'منشور حقيقي — +400 ألف مشاهدة',label:'التجميد الأعمى'},
+  {id:'auth',quote:'كل شوي يطلب توثيق… وثّقنا مليون مرة وما فيه فايدة',src:'شكوى متكررة بعد كل تحديث',label:'التوثيق المتكرر'},
+  {id:'offers',quote:'حنا ندور عروض تناسبنا — وهم يرسلون نفس الشي للجميع',src:'نمط موثق من منصة X',label:'الإزعاج العام'},
+  {id:'seizure',quote:'حجزوا مبلغاً من راتبي لمخالفة مرورية… تجاوز الحسم — هل من حقهم؟',src:'شكوى حقيقية — @AskCFO (♥29)',label:'الحجز المروري'},
+  {id:'support',quote:'كل مرة أعيد قصتي من الصفر… والرد نفسه: اتصل على 920028000',src:'تحليل ردود الدعم الرسمية',label:'دعم بلا ذاكرة'}
+];
+
+/* ================= بناء الواجهات المشتركة ================= */
+function nav(){return[['grid','الخدمات'],['store','المتجر'],['pay','المدفوعات'],['swap','التحويل'],['home','الرئيسية']].map(([ic,l])=>`<div class="ni ${l==='الرئيسية'?'on':''}">${IC[ic]}<span>${l}</span></div>`).join('')}
+function balBlock(p,frozen){const[i,d]=fmt2(p.balance).split('.');
+  return`<div class="balwrap"><div class="acct">حساب جاري 5000 •••</div><div class="amt"><bdi>${i}<span class="dec">.${d}</span></bdi><span class="cur">ريال</span></div><span class="pill-type ${frozen?'frozen':''}">${frozen?'مجمد مؤقتاً':'جاري'}</span></div>`}
+function quickActions(){return`<div class="qa"><div class="t"><div class="ic">${IC.bill}</div><span>دفع الفواتير</span></div><div class="t"><div class="ic">${IC.transfer}</div><span>الحوالات السريعة</span></div><div class="t"><div class="ic">${IC.sim}</div><span>شحن الجوال</span></div><div class="t"><div class="ic">${IC.car}</div><span>المخالفات</span></div></div>`}
+function txnList(p){return`<div class="sec-head"><b>آخر العمليات</b><a>عرض الكل ‹</a></div><div class="card" style="padding:4px 14px">`+p.txns.map(([tag,name,when,amt])=>`<div class="txn"><div class="tic">${tag}</div><div class="tt"><b>${name}</b><span>${when}</span></div><div class="amt2 ${amt.startsWith('+')?'pos':'neg'}"><bdi>${amt}</bdi> ${riyalSm}</div></div>`).join('')+`</div>`}
+function genericPromo(){return`<div class="promo"><div><b>الإنماء فانتزي</b><span>توقّع واربح!</span></div><span class="adtag">إعلان عام — يُعرض للجميع</span></div>`}
+function strip(t){return`<div class="strip"><span style="margin-top:2px">${IC.shield}</span><div><b>كَفيت:</b> ${t}</div><button onclick="setCtx('normal')">تراجع بلمسة</button></div>`}
+function quiet(t){return`<div class="quiet"><i></i><span>${t}</span></div>`}
+
+function sparkSVG(p,amt){
+  const arr=p.transfers,{mean}=stats(arr);
+  const W=300,H=64,P=8;
+  const max=Math.max(...arr,amt),min=Math.min(...arr,0);
+  const y=v=>H-P-((v-min)/(max-min))*(H-2*P);
+  const step=(W-P-30)/(arr.length-1);
+  const dots=arr.map((v,i)=>`<circle cx="${P+i*step}" cy="${y(v)}" r="2.3" fill="#8FBED1" opacity=".7"/>`).join('');
+  return`<div class="sparkwrap"><div class="sparklbl"><span style="color:#E2766B">● هذه الحوالة ${fmt(amt)}</span><span style="color:#4C8A5C">- - متوسطك ${fmt(mean)}</span></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block" aria-label="حوالاتك في 90 يوماً مقابل هذه الحوالة">
+    <line x1="${P}" x2="${W-P}" y1="${y(mean)}" y2="${y(mean)}" stroke="#4C8A5C" stroke-width="1.4" stroke-dasharray="4 3"/>
+    ${dots}
+    <circle cx="${W-P-6}" cy="${y(amt)}" r="4.6" fill="#E2766B"/>
+  </svg><span>كل نقطة = حوالة فعلية من آخر 90 يوماً. البعد الكبير بين النقطة الحمراء ومتوسطك هو سبب طلب التأكيد.</span></div>`}
+function samaGauge(){
+  const p=PERSONAS[S.persona], f=samaFloor(p);
+  const on=f.key!=='pass';                                              // يعكس الأرضية الفعلية، لا رسماً ثابتاً
+  return`<div class="gauge"><div class="g-title">الحدّ الذي يفرضه النظام ${on?'<span style="color:var(--coral-t);font-weight:700">— شغّال هنا</span>':'<span style="color:var(--muted);font-weight:400">— ما ينطبق على هذه العملية</span>'}</div>`+
+    `<div class="g-track"><i class="g-floor"></i><b class="g-pos"></b></div>`+
+    `<div class="g-lbl"><span class="g-l1">حدّ ساما<br><em>${on?f.why:'ما ننزل عنه أبداً'}</em></span><span class="g-l2">كَفيت الآن<br><em>يخفّف فوق الحدّ — لا تحته</em></span></div></div>`}
+function baselineSpark(p){
+  const arr=p.transfers,{mean}=stats(arr);
+  const W=300,H=58,P=8;
+  const max=Math.max(...arr),min=Math.min(...arr,0);
+  const y=v=>H-P-((v-min)/(max-min))*(H-2*P);
+  const step=(W-P*2)/(arr.length-1);
+  const dots=arr.map((v,i)=>`<circle cx="${P+i*step}" cy="${y(v)}" r="2.3" fill="#8FBED1" opacity=".75"/>`).join('');
+  return`<div class="sparkwrap"><div class="sparklbl"><span style="color:#8FBED1">● تحويلاتك (90 يوماً)</span><span style="color:#4C8A5C">- - متوسطك ${fmt(mean)} ريال</span></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block" aria-label="خط أساس تحويلاتك">
+    <line x1="${P}" x2="${W-P}" y1="${y(mean)}" y2="${y(mean)}" stroke="#4C8A5C" stroke-width="1.4" stroke-dasharray="4 3"/>${dots}
+  </svg><span>كل نقطة عملية فعلية. هذا خط أساسك أنت — منه يعرف كَفيت ما هو «معتاد» بالنسبة لك، لا قاعدة عامة على الجميع.</span></div>`}
+/* إحصاء سلوك العميل المعتاد: كل قيمة مشتقّة من عمليات العميل نفسه — بلا درجة مركّبة بأوزان يدوية */
+function pulseStats(p){
+  const a=p.transfers,{mean,sd}=stats(a);
+  const min=Math.min(...a),max=Math.max(...a);
+  return{mean,sd,min,max,count:a.length};
+}
+/* بطاقة تتبّع الحوالة الواردة المعلّقة — سطح حي يجيب «وين فلوسي؟» (أعلى ثيمة معلّقة) */
+function heldTransferCard(){
+  const steps=[
+    ['أُرسلت','أمس 6:12 م','done'],
+    ['تدقيق امتثال','مكتمل','done'],
+    ['بين المصارف','الآن','now'],
+    ['ستُقيَّد','قبل 3:00 عصراً','']
+  ];
+  return`<div class="track"><div class="track-h"><span class="track-ic">${IC.shield}</span><div class="track-t"><b>حوالة واردة إليك — 4,000 ريال</b><span>في الطريق · تصل اليوم قبل 3:00 عصراً</span></div><span class="track-badge">قيد التتبّع</span></div>
+    <div class="track-steps">${steps.map(([l,t,c])=>`<div class="ts ${c}"><i></i><span>${l}</span><em>${t}</em></div>`).join('<div class="ts-line"></div>')}</div>
+    <p class="track-why">تحقّقنا نيابةً عنك: لا شيء ناقص من جهتك — الحوالة في تدقيق روتيني بين المصارف، لا مُعلَّقة في حسابك. نُعلمك فور قيدها.</p></div>`}
+/* شاشة «سلوكك المعتاد» — ما يعرفه المصرف عنك، مرئياً */
+function pulseScreen(){
+  const p=PERSONAS[S.persona];const s=pulseStats(p);
+  return`<div style="display:flex;align-items:center;gap:10px;padding:10px 2px 2px"><button style="background:none;border:none;color:var(--coral-t);font-size:18px" onclick="goHome()">‹</button><b style="font-size:19px">سلوكك المعتاد</b></div>
+  <p style="font-size:11.5px;color:var(--muted);line-height:1.7;padding:0 4px 2px">ما يعرفه المصرف عن نمطك — <b style="color:var(--muted-hi)">قبل</b> أن يتخذ أي قرار يخصّك. كل رقم هنا محسوبٌ من عملياتك أنت، لا من قاعدة عامة.</p>
+  <div class="card"><h4 style="font-size:13.5px">عملياتك خلال ٩٠ يوماً</h4>
+    ${baselineSpark(p)}
+    <div class="txn"><div class="tic">م ت</div><div class="tt"><b>متوسط حوالاتك</b><span>${fmt(s.mean)} ريال — من ${s.count} عملية خلال ٩٠ يوماً</span></div></div>
+    <div class="txn"><div class="tic">م د</div><div class="tt"><b>حجم حوالاتك المعتاد</b><span>تتراوح بين ${fmt(s.min)} و${fmt(s.max)} ريال — منه يُعرف ما هو غير المعتاد</span></div></div>
+    <div class="txn"><div class="tic">ج ث</div><div class="tt"><b>جهازك الموثوق</b><span>موثوق منذ ${p.deviceMonths} شهراً — ولم يتغيّر</span></div></div>
+    <div class="txn"><div class="tic">إ ر</div><div class="tt"><b>إيقاع راتبك</b><span>يُودع عادةً يوم 27 من كل شهر</span></div></div>
+    <div class="ruleline"><b>كلما اتّضح نمطك، خفّ التحقّق.</b> فإذا جاءت عملية بعيدة عن هذا المعتاد، يكتفي المصرف بتأكيد واحد سريع بدل إيقاف الحساب.</div>
+  </div>
+  <div class="bayan"><div class="bar info"></div><div class="in"><div class="bh"><div class="bic">${IC.shield}</div><b>أُبلغناك قبل أن تسأل</b><time>كُتب الآن · ${nowStr()}</time></div>
+    <div class="what">حوالة واردة إليك (4,000 ريال) لم تصل بعد — واطمئنّ، هي في الطريق.</div>
+    <div class="why">أُرسلت لك أمس ولم تُقيَّد في حسابك حتى الآن. تحقّقنا نيابةً عنك: الحوالة قيد تدقيق امتثال روتيني بين المصارف، والزمن المتوقع للوصول اليوم قبل الثالثة عصراً.</div>
+    <div class="means">لا حاجة للاتصال ولا للقلق — سنعلمك فور وصولها.</div>
+  </div></div>
+  <div class="quiet"><i></i><span>من هذا المعتاد تُشتق قرارات التحقّق والإشعارات والواجهة — أساسٌ واحد يغذّي كل شيء.</span></div>`}
+/* شاشتان: العميل يرى سبباً بسيطاً · فريق البنك يرى كل التفاصيل */
+function bayanCard(b){
+  const audit=S.view==='audit';
+  const chips=(b.chips||[]).map(c=>`<span class="wc">${c}</span>`).join('');
+  const why=(!audit&&b.whySay)?b.whySay:b.why;
+  const deep=audit?`${b.factors||''}${b.spark||''}`:'';
+  const acts=b.done
+    ?`<div class="done">${IC.check}<span>${b.doneText}</span></div>${b.noObj?'':`<div class="acts" style="margin-top:6px"><button class="link-obj" onclick="openObjection()">أرى أن القرار غير صحيح — اعترض</button></div>`}`
+    :`<div class="acts"><button class="btn-coral" onclick="${b.action}">${b.actionLabel}</button><button class="link-obj" onclick="${b.secondary||''}">${b.secondaryLabel||''}</button></div>`;
+  return`<div class="bayan"><div class="bar ${b.color}"></div><div class="in"><div class="bh"><div class="bic">${IC.shield}</div><b>${b.title}</b><time>كُتب الآن · ${b.ts}</time></div><div class="what">${b.what}</div><div class="why">${why}</div>${deep}<div class="whychips">${chips}</div><div class="means">${b.means}</div>${acts}</div></div>`}
+/* عوامل القرار — محرك قواعد: قيمة كل عامل كما هي، لا إسهامه الإحصائي */
+/* إحصاء وصفي حقيقي: z-score → مئوية عبر دالة التوزيع الطبيعي التراكمية */
+function erf(x){const t=1/(1+0.3275911*Math.abs(x));const y=1-(((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t)*Math.exp(-x*x);return x>=0?y:-y}
+function normCdf(z){return 0.5*(1+erf(z/Math.SQRT2))}
+/* الأوزان: مضبوطة يدوياً اليوم — تُعاير على بيانات احتيال حقيقية في المرحلة الأولى. معلنة، لا مخفية. */
+const W={amt:1.00, benef:0.65, gain:0.85, relief:0.18, reliefCap:22};
+
+/* كل عامل نسبيٌّ لتاريخ هذا العميل وحده — لا قاعدة عامة تُطبّق على الجميع */
+function factorsOf(p,z){
+  const{mean,sd}=stats(p.transfers);
+  const amt=mean+z*sd;
+  const ratio=amt/Math.max(mean,1);                                    // النسبة الحقيقية — تُعرض كما هي حتى لو أقل من 1
+  const amtF=Math.max(0,Math.min(100,Math.round(Math.log2(Math.max(ratio,1))*18)));  // العامل لا يهبط تحت الصفر
+  const pctile=Math.round(100*p.transfers.filter(t=>t<amt).length/p.transfers.length); // رتبة فعلية بين عملياته — لا فرضية اعتدالية
+  const dev=Math.min(100,Math.round(p.deviceMonths/24*100));           // نسبةً لعمر جهاز هذا العميل
+  const mins=p.benefAddedMin;
+  const recency=Math.max(20,Math.min(95,Math.round(100-mins*3)));
+  const per=p.benefPerYear;                                            // كم مرة يضيف *هذا* العميل مستفيداً في السنة
+  const rarity=Math.max(0,1-per/12);                                   // من يضيف شهرياً → لا ندرة → العامل يهبط
+  const benefF=Math.round(recency*(0.35+0.65*rarity));
+  const ifFreq=Math.round(recency*0.35);                               // العامل لو كان هذا العميل كثير الإضافة
+  const hr=(p.scenario&&p.scenario.hour!=null)?p.scenario.hour:12;     // وقت العملية من العملية — لا من ساعة جهاز العرض
+  const[lo,hi]=p.activeHours;const inWin=hr>=lo&&hr<=hi;
+  return[
+    {key:'amt',label:'مبلغ غير معتاد',v:amtF,dir:'up',
+     note:`${ratio.toFixed(2)}× متوسط حوالاتك — ${pctile>=100?'أعلى من كل عملياتك الفعلية':`أعلى من ${pctile}% من عملياتك الفعلية`}`, say:'أكبر من معتادك'},
+    {key:'benef',label:'مستفيد جديد',v:benefF,dir:'up',
+     note:`أُضيف قبل ${mins<60?mins+' دقائق':Math.round(mins/60)+' ساعة'} · وأنت تضيف مستفيداً ${per} ${per===1?'مرة':'مرات'} في السنة`,
+     alt:`لو كان هذا العميل يضيف مستفيداً <b>شهرياً</b>، لهبط هذا العامل من <b>${benefF}</b> إلى <b>${ifFreq}</b> — لا قاعدة عامة تُطبَّق على الجميع.`,
+     say:'لمستفيد أضفته للتو'},
+    {key:'device',label:'جهاز موثوق',v:dev,dir:'down',note:`منذ ${p.deviceMonths} شهراً`,say:'من جهازك المعتاد'},
+    {key:'time',label:'توقيت معتاد',v:inWin?65:15,dir:'down',
+     note:`وقت العملية ${hr}:00 — ${inWin?`ضمن ساعات نشاطك (${lo}–${hi})`:`خارج ساعات نشاطك (${lo}–${hi})`}`,
+     say:inWin?'وفي وقتك المعتاد':'وفي وقت غير معتاد لك'}
+  ];
+}
+/* الدرجة: إشارات الحذر بأوزانها، ناقص تخفيفاً **مسقوفاً** — جهازٌ موثوق يخفّف ولا يمحو مبلغاً شاذاً */
+function riskScore(facts){
+  const g=k=>(facts.find(f=>f.key===k)||{v:0}).v;
+  const up=g('amt')*W.amt + g('benef')*W.benef;
+  const relief=Math.min(W.reliefCap, Math.round((g('device')+g('time'))*W.relief));
+  return Math.max(0,Math.min(100, Math.round(up*W.gain)-relief));
+}
+/* ما يقرّره كَفيت: كم خطوة تحقّق نطلبها من العميل — أقل لا أكثر، وفوق حدّ ساما دائماً.
+   القرار الأمني يبقى لنظام الحماية وحده — كَفيت لا يلغي حجزاً ولا يفتح عمليةً أوقفها النظام. */
+const BANDS=[
+  {max:34, key:'pass',    act:'تمرّ بلا تأكيد',                 col:'--mint-t'},
+  {max:69, key:'confirm', act:'تأكيد واحد فقط',                 col:'--amber'},
+  {max:100,key:'handoff', act:'القرار لنظام الحماية',           col:'--danger'}
+];
+const RANK={pass:0,confirm:1,handoff:2};
+/* الحدّ النظامي — ليس شعاراً بل شرطٌ يسبق الحدود: كَفيت لا يخفّف تحته مهما انخفضت الخطورة.
+   مستفيد جديد خلال 24 ساعة، أو جهاز غير موثوق ⇒ مصادقة إضافية إلزامية (إطار مكافحة الاحتيال — ساما). */
+function samaFloor(p){
+  if(p.benefAddedMin<=1440) return{key:'confirm',why:'مستفيد أُضيف قبل أقل من يوم — والنظام يوجب تأكيداً'};
+  if(p.deviceMonths<1)      return{key:'confirm',why:'جهاز غير موثوق — والنظام يوجب تأكيداً'};
+  return{key:'pass',why:null};
+}
+function decisionFor(rs,p){
+  const band=BANDS.find(b=>rs<=b.max);
+  if(!p) return band;
+  const f=samaFloor(p);
+  if(RANK[f.key]>RANK[band.key])                                       // الأرضية ترفع، ولا تخفض أبداً
+    return{...BANDS.find(b=>b.key===f.key), floored:true, floorWhy:f.why, band:band.act};
+  return band;
+}
+
+/* السبب للعميل: بسيط بالكامل — صفر أرقام كشف، صفر عتبات، صفر أوزان */
+function whySay(facts,p){
+  const d=decisionFor(riskScore(facts),p);
+  const ups=facts.filter(f=>f.dir==='up'&&f.v>=25).map(f=>f.say);
+  const downs=facts.filter(f=>f.dir==='down'&&f.v>=50).map(f=>f.say);
+  const cause=ups.length?ups.join('، و'):'ضمن سلوكك المعتاد';
+  const soft=downs.length?` وهي ${downs.join(' ')}`:'';
+  const tail=d.key==='pass'?' — فأرسلناها بلا ما نسألك.'
+            :d.key==='confirm'?(d.floored?' — وسألناك مرة وحدة، لأن التحويل لمستفيد جديد يوجب تأكيداً نظاماً.'
+                                         :' — فسألناك مرة وحدة بس، بدل سلسلة تحقّق.')
+            :'. ولك حقّك تعترض من «قراراتك»، ويردّ عليك فريق الحماية.';
+  return`هذي الحوالة ${cause}.${soft}${tail}`;
+}
+/* السبب لفريق البنك: العوامل بأرقامها — لا يراه العميل */
+function whyFromFactors(facts,p){
+  const d=decisionFor(riskScore(facts),p);
+  const up=[...facts].filter(f=>f.dir==='up').sort((a,b)=>b.v-a.v)[0];
+  const down=[...facts].filter(f=>f.dir==='down').sort((a,b)=>b.v-a.v)[0];
+  const tail=d.key==='pass'?'الخطورة تحت الحدّ الأدنى، فمرّت بلا أي تأكيد.'
+            :d.key==='confirm'?'الخطورة في الوسط، فطلبنا تأكيداً واحداً بدل سلسلة تحقّق.'
+            :'الخطورة فوق الحدّ الأعلى — فما نخفّف. القرار لنظام الحماية، وكَفيت يشرحه ويفتح مسار الحل.';
+  return`أقوى ما رفع الخطورة: «${up.label}» (${up.note.replace(/\*\*/g,'')}). وأقوى ما خفّضها: «${down.label}» (${down.note}). ${tail}`;
+}
+const g=(facts,k)=>(facts.find(f=>f.key===k)||{v:0}).v;
+function factorPanel(facts,p){
+  const rs=riskScore(facts),d=decisionFor(rs,p);
+  const floorLine=d.floored
+    ?`<div class="fx-floor">⛔ <b>هنا ما نقدر نخفّف:</b> ${d.floorWhy}. الخطورة (${rs}) كانت تسمح بـ«${d.band}» — <b>لكننا لا ننزل تحت الحدّ النظامي</b>، فصار القرار «${d.act}». هذا الحدّ يرفع، ولا يخفض أبداً.</div>`:'';
+  return`<div class="factors"><div class="fx-h">حسبنا خطورة العملية من بياناتك: <b style="color:var(--amber)">${rs}/100</b> → <b style="color:var(${d.col})">${d.act}</b>${d.floored?' <span style="color:var(--muted)">(بالحدّ النظامي)</span>':''}</div>`+
+    facts.map(f=>`<div class="fx-row"><span class="fx-l">${f.label}</span><span class="fx-v ${f.dir}">${f.v}</span><span class="fx-bar"><i class="fx-fill ${f.dir}" style="width:${f.v}%"></i></span><span class="fx-n">${f.note.replace(/\*\*(.+?)\*\*/g,'<b style="color:var(--muted-hi)">$1</b>')}</span></div>`).join('')+
+    floorLine+
+    `<div class="fx-f"><span style="color:var(--danger)">▲ يرفع الخطورة</span> · <span style="color:var(--mint-t)">▼ يخفّضها</span><br>
+      <b style="color:var(--muted-hi)">كل عامل يُقاس بعادات هذا العميل:</b> ${(facts.find(f=>f.alt)||{}).alt||''}<br>
+      <b style="color:var(--muted-hi)">الحدود معلنة:</b> أقل من 35 تمرّ · 35–69 تأكيد واحد · 70 فأكثر القرار لنظام الحماية.<br>
+      <b style="color:var(--muted-hi)">احسبها بنفسك — ما فيه رقم مخفي:</b>
+      وزن المبلغ ${W.amt} · وزن المستفيد ${W.benef} · معامل الخطورة ${W.gain} · معامل الخصم ${W.relief} · سقف الخصم ${W.reliefCap}.<br>
+      <span style="direction:ltr;display:inline-block;text-align:left">round((${W.amt}×${g(facts,'amt')} + ${W.benef}×${g(facts,'benef')}) × ${W.gain}) − min(${W.reliefCap}, round((${g(facts,'device')} + ${g(facts,'time')}) × ${W.relief})) = <b style="color:var(--amber)">${rs}</b></span><br>
+      <b style="color:var(--muted-hi)">وكل عامل من معادلة معلنة:</b> المبلغ = log₂(المبلغ ÷ متوسطك) × 18 · المستفيد = [100 − 3×الدقائق، بحدّ أدنى 20] × [0.35 + 0.65×(1 − مرات الإضافة سنوياً ÷ 12)] · الجهاز = (أشهر الجهاز ÷ 24) × 100 · التوقيت = 65 داخل ساعات نشاطك، و15 خارجها.<br>
+      <b style="color:var(--muted-hi)">والصدق في الأوزان:</b> ضبطناها يدوياً اليوم. تُعاير على بيانات احتيال حقيقية في المرحلة الأولى — وما ندّعي معايرة ما صارت.
+      <br><b style="color:var(--coral-t)">وحدّ كَفيت:</b> يقرّر <b>كم خطوة تحقّق نطلبها منك</b> — أقل لا أكثر، <b>وما ننزل تحت الحدّ النظامي أبداً</b> (وهو سطر في الكود، مو عبارة). والقرار الأمني لنظام الحماية وحده.</div></div>`}
+
+/* ================= الشاشات الأساسية ================= */
+function homeKfeet(){
+  const p=PERSONAS[S.persona];let out='';
+  if(S.ctx==='easy')return homeEasy(p);
+  if(S.ctx==='salary')out+=strip('رتبنا شاشتك لأن اليوم يوم راتبك.');
+  if(S.ctx==='travel')out+=strip('لاحظنا وصولك خارج المملكة — جهزنا وضع السفر.');
+  if(S.ctx==='pressure')out+=strip('وضع التركيز: أخفينا العروض غير الضرورية.');
+  out+=balBlock(p,false);
+  if(S.ctx==='normal'||S.ctx==='salary')out+=`<button class="pulse-entry" onclick="openPulse()"><span class="pe-ic">${IC.shield}</span><span class="pe-t"><b>سلوكك المعتاد</b><span>ما يعرفه المصرف عن نمطك — قبل أي قرار يخصّك</span></span><span class="pe-ar">›</span></button>`;
+  if(S.ctx==='normal')out+=heldTransferCard();
+  out+=S.bayans.map(bayanCard).join('');
+  if(!S.bayans.length&&S.ctx==='normal')out+=quiet('كَفيت يعمل بصمت — لا قرارات تخصك اليوم، ولا إشعارات بلا سبب.');
+  if(S.ctx==='salary'&&p.salary){
+    out+=`<div class="card"><h4>التزامات هذا الشهر</h4>
+      <div class="txn"><div class="tic">إ س</div><div class="tt"><b>إيجار السكن</b><span>مجدولة — 1 أغسطس</span></div><div class="amt2 neg">2,500 ${riyalSm}</div></div>
+      <div class="txn"><div class="tic">ا ت</div><div class="tt"><b>فاتورة الاتصالات</b><span>خلال 5 أيام</span></div><div class="amt2 neg">189 ${riyalSm}</div></div>
+      <div class="txn"><div class="tic">م د</div><div class="tt"><b>رسوم المدرسة</b><span>خلال 10 أيام</span></div><div class="amt2 neg">800 ${riyalSm}</div></div></div>`;
+    out+=`<div class="bayan"><div class="bar mint"></div><div class="in"><div class="bh"><div class="bic">${IC.shield}</div><b>توصية</b><time>كُتب الآن · ${nowStr()}</time></div>
+      <div class="what">وصل راتبك ${fmt(p.salary)} ريال — بعد التزاماتك يتبقى ${fmt(p.salary-3489)} ريال.</div>
+      <div class="why">كما في الأشهر الأربعة الماضية، جرى تحويل نحو 900 ريال لهدف الادخار بعد إيداع الراتب.</div>
+      <div class="means">التحويل بيدك دائماً — كَفيت يقترح ولا ينفذ عنك.</div>
+      <div class="acts"><button class="btn-coral" onclick="savingsDone()">حوّل 900 للادخار</button><button class="link-obj" onclick="this.closest('.bayan').remove()">ليس اليوم</button></div></div></div>`}
+  if(S.ctx==='salary'&&!p.salary)out+=`<div class="card"><h4>يوم الراتب</h4><p style="font-size:12px;color:var(--muted-hi);line-height:1.7;margin-top:5px">رتبنا التزاماتك المجدولة أولاً — ولا إعلانات اليوم.</p></div>`;
+  if(S.ctx==='travel'){out+=`<div class="card"><h4>وضع السفر</h4>
+    <div class="txn"><div class="tic">ص ع</div><div class="tt"><b>محول العملات</b><span>اليورو اليوم: 4.08 ريال</span></div></div>
+    <div class="txn"><div class="tic">ح د</div><div class="tt"><b>حدود البطاقة بالخارج</b><span>الشراء الدولي مفعل — 8,000 ريال يومياً</span></div></div>
+    <div class="txn"><div class="tic">أ م</div><div class="tt"><b>أمانك في السفر</b><span>جهازك موثوق (${PERSONAS[S.persona].deviceMonths} شهراً) — السمات الحيوية تكفي</span></div></div></div>
+    <div class="promo"><div><b>شريحة eSIM لرحلتك</b><span>من متجر الإنماء — تعمل فور الهبوط</span></div><span class="adtag">إعلان — ذو صلة بسفرك فقط</span></div>`}
+  if(S.ctx==='pressure'){out+=`<div class="card"><h4>أسبوعك بهدوء</h4>
+    <div class="txn"><div class="tic">م ص</div><div class="tt"><b>مصروفك هذا الأسبوع</b><span>أقل من المعتاد بنسبة 12% — ضمن المعتاد تماماً</span></div></div>
+    <div class="txn"><div class="tic">خ ط</div><div class="tt"><b>خطة مبسطة</b><span>سقف يومي مقترح: 140 ريال حتى نهاية الشهر</span></div></div></div>`
+    +quiet('أخفينا عروض التمويل مؤقتاً — تجدها في المتجر متى أردت.')}
+  if(S.ctx==='normal')out+=`<div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:10px"><p style="font-size:12.5px;line-height:1.6">ارفع حدك اليومي إلى ${riyalSm} 20,000</p><button class="dead" style="background:var(--mint);color:var(--mint-t);font-weight:700;border:none;border-radius:var(--r-pill);padding:9px 16px;font-size:12px">رفع الحد</button></div>`;
+  out+=quickActions()+txnList(p);
+  return out}
+
+function homeEasy(p){
+  return strip('<b>الوضع الميسّر مفعل باختيارك.</b> كل شيء أكبر وأوضح.')
+  +balBlock(p,false)
+  +`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+     ${[['home','رصيدي'],['transfer','حوالة لأهلي'],['bill','فواتيري'],['grid','عملياتي']].map(([ic,l])=>`<div class="dead" style="background:var(--card);border-radius:var(--r-card);min-height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;font-size:16px;font-weight:700"><div style="width:50px;height:50px;border-radius:16px;background:var(--coral);display:flex;align-items:center;justify-content:center;color:#12303F">${IC[ic]}</div>${l}</div>`).join('')}
+   </div>
+   <div class="dead" style="display:flex;align-items:center;justify-content:center;gap:9px;background:var(--mint);color:var(--mint-t);border-radius:var(--r-card);padding:16px;margin-top:12px;font-size:16.5px;font-weight:700">اتصل بموظف يساعدك — بضغطة واحدة</div>
+   <p style="font-size:16px;color:var(--muted-hi);line-height:1.8;background:var(--card);border-radius:var(--r-tile);padding:11px 13px;margin-top:12px">لن تصلك أي عروض في هذا الوضع. أي عملية غير معتادة نوقفها ونتصل بك أولاً.</p>
+   <div style="text-align:center;margin-top:12px"><button style="background:none;border:none;color:var(--coral-t);font-size:13px" onclick="setCtx('normal')">الخروج من الوضع الميسّر</button></div>`}
+
+function homeLegacy(){
+  const p=PERSONAS[S.persona];let out=balBlock(p,S.frozen);
+  if(S.mode==='freeze'&&S.frozen){
+    out+=`<div class="painband"><b>تعذر تنفيذ العملية.</b><br>رمز الخطأ: TXN-4402. لمزيد من المعلومات اتصل بخدمة العملاء.</div>`;
+    out+=`<div class="ivr"><b style="color:var(--text);font-size:12.5px">ما يعيشه العميل الآن:</b><div id="ivrSteps"></div></div>`}
+  if(S.mode==='auth')out+=`<div id="otpZone"></div>`;
+  if(S.mode==='offers')out+=`<div id="notifZoneL"></div>`;
+  if(S.mode==='support')out+=`<div class="sec-head"><b>المحادثة مع الدعم</b></div><div class="chat" id="chatL"></div>`;
+  if(S.mode==='seizure')out+=`<div class="painband"><b>حُسم مبلغ من حسابك.</b><br>لمعرفة السبب راجع إدارة المرور أو خدمة العملاء 920028000.</div><div class="ivr"><div class="step"><i>؟</i><span>العميل لا يعرف: كم الحدّ النظامي؟ هل تجاوزوه؟ كيف يعترض؟</span></div><div class="step"><i>؟</i><span>«تجاوز الحسم 33٪… هل من حقهم أو أرفع شكوى؟» — بلا جواب</span></div></div>`;
+  if(S.mode!=='support')out+=genericPromo();
+  out+=quickActions()+txnList(p);
+  return out}
+
+/* ================= قراراتك ================= */
+function qararatScreen(){
+  const p=PERSONAS[S.persona];
+  const hist=S.bayans.length?S.bayans.map(bayanCard).join(''):`<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:22px">لا قرارات بعد — أي قرار يمس حسابك سيظهر هنا ومعه سببه.</div>`;
+  const status=S.kfOff
+    ?`<div class="card" style="display:flex;gap:10px;align-items:center"><i style="width:9px;height:9px;border-radius:50%;background:#5E7885;flex:0 0 auto"></i><p style="font-size:12px;color:var(--muted-hi);line-height:1.65;flex:1"><b style="color:var(--text)">كَفيت متوقف — موافقتك مسحوبة.</b> لا تُقرأ أي بيانات الآن، وتجربتك عادت عامة.</p><button style="background:var(--coral);border:none;color:#12303F;font-weight:700;border-radius:var(--r-pill);padding:6px 12px;font-size:11px" onclick="S.kfOff=false;render()">أعد تفعيله</button></div>`
+    :`<div class="card" style="display:flex;gap:10px;align-items:center"><i style="width:9px;height:9px;border-radius:50%;background:var(--ok);flex:0 0 auto"></i><p style="font-size:12px;color:var(--muted-hi);line-height:1.65;flex:1"><b style="color:var(--text)">كَفيت مفعل.</b> يقرأ: معاملاتك، أجهزتك الموثوقة، والمصرفية المفتوحة — بموافقتك.</p><button style="background:none;border:1px solid #2A5266;color:var(--muted-hi);border-radius:var(--r-pill);padding:6px 11px;font-size:11px" onclick="openStopSheet()">أوقف كَفيت</button></div>`;
+  const objRows=S.objections.map(o=>`<div class="txn"><div class="tic">ا ع</div><div class="tt"><b>اعتراض ${o.ref}</b><span>مسجل ${o.ts} — قيد المعالجة ضمن المدد النظامية</span></div></div>`).join('');
+  return`<div style="display:flex;align-items:center;gap:10px;padding:10px 2px 2px"><button style="background:none;border:none;color:var(--coral-t);font-size:18px" onclick="goHome()">‹</button><b style="font-size:19px">قراراتك</b></div>
+  <p style="font-size:11.5px;color:var(--muted);line-height:1.7;padding:0 4px 2px">سجلّ كل قرار اتخذه المصرف تجاه حسابك — مفسَّراً بوقته وسببه — مع حالاتك المفتوحة وحق الاعتراض.</p>
+  ${status}
+  <div class="card"><h4 style="font-size:13px">سجل حالتك</h4><div class="txn"><div class="tic">س ح</div><div class="tt"><b>${p.caseRef}</b><span>${p.caseDesc}</span></div></div>${objRows}</div>
+  ${hist}`}
+
+/* ================= السيناريوهات ================= */
+function clearZones(){clearInterval(waitTimer)}
+function playScenario(id){
+  runToken++;const tk=runToken;
+  S.mode=id;S.frozen=(id==='freeze');S.screen='home';clearZones();hideSheet();
+  const _b=document.getElementById('bio');_b.onclick=null;_b.style.cursor='';_b.classList.remove('on');_b.querySelector('p').textContent='تأكيد بالسمات الحيوية…';
+  document.querySelectorAll('.scen').forEach(el=>el.classList.toggle('on',el.dataset.id===id));
+  render();
+  centerDuel();
+  if(id==='freeze')scFreeze(tk);
+  if(id==='auth')scAuth(tk);
+  if(id==='offers')scOffers(tk);
+  if(id==='support')scSupport(tk);
+  if(id==='seizure')scSeizure(tk);
+}
+function vs(pain,kf){document.getElementById('vsPain').textContent='بنك اليوم: '+pain;document.getElementById('vsKf').textContent='مع كَفيت: '+kf;document.getElementById('vscore').classList.add('show')}
+function centerDuel(){const d=document.querySelector('.duel');const rect=d.getBoundingClientRect();const target=scrollY+rect.top-Math.max(72,(innerHeight-rect.height)/2);window.scrollTo({top:Math.max(0,target),behavior:'smooth'})}
+
+/* — 1: التجميد الأعمى — */
+function scFreeze(tk){
+  const steps=[[400,'النظام رأى «شبهة» — جمّد الحساب فوراً، بصمت'],[1500,'العميل يتصل: 920028000'],[2600,'الخيارات الصوتية: 2 ثم 1 ثم 1 ثم 0'],[3700,'<span class="wait" id="waitc">الانتظار: 0:00</span> — والموظف لن يعرف السبب <span style="color:#5E7885">(محاكاة متسارعة)</span>']];
+  steps.forEach(([t,txt],i)=>setTimeout(()=>{if(tk!==runToken)return;const b=document.getElementById('ivrSteps');if(!b)return;b.insertAdjacentHTML('beforeend',`<div class="step"><i>${i+1}</i><span>${txt}</span></div>`);if(i===3){let s=0;clearInterval(waitTimer);waitTimer=setInterval(()=>{s+=47;const el=document.getElementById('waitc');if(el)el.textContent=`الانتظار: ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`},1000)}},t));
+  tStartK=Date.now();
+  setTimeout(()=>{if(tk!==runToken)return;showSoftVerify()},900);
+  vs('عميل معلق + مكالمة','بانتظار تأكيد واحد…');
+}
+function computeCase(){const p=PERSONAS[S.persona];const{mean,sd}=stats(p.transfers);const amt=p.scenario.amount;return{p,mean,sd,amt,z:(amt-mean)/sd}}
+
+/* مقبض الحكم: غيّر المبلغ → الدرجة والقرار يتحرّكان لحظياً (اختبار القبول على المسرح) */
+function setAmt(v){
+  PERSONAS[S.persona].scenario.amount=+v;
+  const r=document.getElementById('amtRange');if(r&&+r.value!==+v)r.value=v;   // يزامن الشريط عند الاستدعاء البرمجي
+  document.getElementById('amtOut').textContent=`${fmt(+v)} ريال`;
+  drawDial();
+}
+/* شاشتان: العميل يفهم · المحتال لا يتعلّم · فريق البنك يرى كل شيء */
+function setView(v){
+  S.view=v;
+  document.querySelectorAll('#viewSeg button').forEach((b,i)=>b.classList.toggle('on',(i===0)===(v==='client')));
+  document.getElementById('viewNote').innerHTML=v==='client'
+    ?'يشوف السبب بكلام واضح — <b style="color:var(--mint-t)">بلا أرقام</b>. فما يتعلّم منها المحتال شيئاً.'
+    :'الأرقام والحدود والأوزان كاملة — <b style="color:var(--coral-t)">لفريق البنك، مو للعميل</b>.';
+  renderK();
+  const sp=document.getElementById('spot');
+  if(sp&&sp.classList.contains('on')&&S.bayans[0])document.getElementById('spotCard').innerHTML=bayanCard(S.bayans[0]);
+}
+function drawDial(){
+  const out=document.getElementById('dialOut');if(!out)return;
+  const{p,z}=computeCase();
+  const rs=riskScore(factorsOf(p,z));const d=decisionFor(rs,p);
+  const col=d.key==='handoff'?'var(--danger)':d.key==='confirm'?'var(--amber)':'var(--mint-t)';
+  out.innerHTML=`<span>خطورة العملية:</span>
+    <span class="pill" style="background:${col}1f;color:${col}">${rs}/100</span>
+    <span>←</span>
+    <span class="pill" style="background:${col};color:#0B2836">${d.act}</span>
+    ${d.floored
+      ?`<span class="dial-note" style="color:var(--coral-t)">⛔ هنا ما نقدر نخفّف: ${d.floorWhy}. الخطورة كانت تسمح بـ«${d.band}» — لكننا ما ننزل تحت الحدّ النظامي.</span>`
+      :`<span class="dial-note">كَفيت يقرّر <b style="color:var(--muted-hi)">كم خطوة تحقّق نطلب منك</b> — أقل لا أكثر. والقرار الأمني لنظام الحماية وحده.</span>`}`;
+}
+
+function showSoftVerify(){
+  const{p,amt,z}=computeCase();
+  /* القرار يحكم خطوات التحقّق، لا النصّ فقط: «تمرّ» بلا ورقة تأكيد، و«الإيقاف» لا يُسأل عنه العميل */
+  if(decisionFor(riskScore(factorsOf(p,z)),p).key!=='confirm'){confirmTransfer();return}
+  const sheet=document.getElementById('sheet');
+  sheet.innerHTML=`<div class="grab"></div><h3>ثوانٍ قبل الإرسال — تأكيد سريع</h3>
+    <p>حوالة بمبلغ <b style="color:var(--text)">${fmt(amt)} ريال</b> إلى ${p.scenario.benef}.<br>هذا المبلغ أعلى بكثير من المعتاد في حسابك، فأوقفنا <b style="color:var(--text)">هذه الحوالة وحدها</b> ريثما تؤكدها — وحسابك يعمل كالمعتاد.</p>
+    ${samaGauge()}
+    <div class="acts"><button class="btn-coral" style="padding:12px" onclick="confirmTransfer()">نعم، هذه حوالتي — أكمل الإرسال</button><button class="btn-dark" onclick="denyTransfer()">ليست مني — أوقفوها الآن</button></div>`;
+  document.getElementById('scrim').classList.add('on');sheet.classList.add('up');
+  capLight('exp');capLight('ctx');
+}
+function hideSheet(){document.getElementById('sheet').classList.remove('up');document.getElementById('scrim').classList.remove('on')}
+function confirmTransfer(){
+  hideSheet();const tk=runToken;
+  const{p,z}=computeCase();
+  const key=decisionFor(riskScore(factorsOf(p,z)),p).key;
+  const bio=document.getElementById('bio');
+  const scan=key==='confirm';                                           // البصمة للتأكيد وحده — «تخفيف كامل» بلا احتكاك، و«لا تخفيف» قرارُ المصرف لا يُسأل عنه العميل
+  if(scan)bio.classList.add('on');
+  setTimeout(()=>{bio.classList.remove('on');if(tk!==runToken)return;
+    const{p,mean,amt,z}=computeCase();const secs=Math.min(9,Math.round((Date.now()-tStartK)/1000));
+    const facts=factorsOf(p,z);
+    const d=decisionFor(riskScore(facts),p);                            // القرار الفعلي يحكم الإشعار كله: العنوان واللون والنص والإجراء
+    const T={
+      pass:{color:'mint',title:'أرسلناها فوراً',
+        doneText:`ما سألناك ولا سؤال`,
+        what:`أرسلنا حوالتك (${fmt(amt)} ريال) على طول.`,
+        means:`التأكيد الذي يفرضه النظام يبقى في مكانه دائماً. كَفيت يخفّف ما فوقه فقط. والإشعار محفوظ في «قراراتك».`,chips:[]},
+      confirm:{color:'amber',title:'سألناك مرة وحدة… وراحت',
+        doneText:`تأكيد واحد، وخلصنا في ${sec(secs)}`,
+        what:`أرسلنا حوالتك (${fmt(amt)} ريال) بعد تأكيد واحد — بدل سلسلة تحقّق.`,
+        means:`حسابك ما توقّف لحظة. والإشعار محفوظ في «قراراتك»، ولك حقّك تعترض.`,chips:[]},
+      handoff:{color:'coral',title:'أوقفها نظام الحماية — وهذا السبب',
+        doneText:`القرار لنظام الحماية — وكَفيت وصّل لك السبب والحل`,
+        what:`أوقف <b>نظام الحماية في البنك</b> حوالتك (${fmt(amt)} ريال) مؤقتاً. كَفيت ما يلغي هذا القرار — لكنه يشرحه لك، ويفتح لك مسار الحل.`,
+        means:`حسابك ما توقّف — العملية وحدها. يتواصل معك فريق الحماية، ولك حقّك تعترض من «قراراتك».`,
+        chips:[`الإجراء: <b>إيقاف العملية فقط</b>`,`حسابك وبطاقتك: <b>يعملان طبيعياً</b>`]}
+    }[d.key];
+    const b={...T,ts:nowStr(),done:true,factors:factorPanel(facts,p),spark:sparkSVG(p,amt),
+             why:whyFromFactors(facts,p),whySay:whySay(facts,p)};
+    S.bayans.unshift(b);
+    vs('لا يزال معلقاً — بلا تفسير',
+       d.key==='handoff'?`أوقفها نظام الحماية — وكَفيت وصّل السبب`
+      :d.key==='pass'?`مرّت فوراً — بلا تأكيد إضافي`
+      :`اكتمل خلال ${sec(secs)} — بتأكيد واحد`);
+    capLight('exp');capLight('mem');renderK();
+    setTimeout(()=>{if(tk===runToken)openSpot(b,secs)},700);
+  },scan?1500:600)}
+function denyTransfer(){
+  hideSheet();const{p,mean,amt,z}=computeCase();
+  S.bayans.unshift({color:'coral',title:'حماية — بناءً على طلبك',ts:nowStr(),done:true,
+    doneText:'أوقفنا الحوالة وجمدنا هذا المستفيد فقط',
+    what:`أوقفنا حوالة بمبلغ ${fmt(amt)} ريال لم تأمر بها.`,
+    spark:sparkSVG(p,amt),
+    why:`المبلغ أبعد من ${Math.min(99,Math.floor(normCdf(z)*100))}% من حوالاتك المعتادة (متوسطك ${fmt(mean)} ريال) والمستفيد أُضيف قبل دقائق — أكدتَ أنها ليست منك.`,
+    whySay:`هذه الحوالة أكبر من معتادك، ولمستفيد أُضيف قبل دقائق — وأنت أكدتَ أنها ليست منك، فأوقفناها وجمّدنا هذا المستفيد وحده.`,
+    chips:[`الإجراء: <b>إيقاف العملية فقط</b>`,`حسابك وبطاقتك: <b>يعملان طبيعياً</b>`],
+    means:`فريق الحماية يتواصل معك في ساعات العمل. رقم الحالة KF-2490 — تتبعها في «قراراتك».`});
+  vs('لا يزال معلقاً — بلا تفسير','خطر أُوقف بدقة — والحساب يعمل');
+  capLight('exp');capLight('mem');renderK()}
+
+/* — 2: التوثيق المتكرر — */
+function scAuth(tk){
+  const zone=()=>document.getElementById('otpZone');
+  const otp=n=>`<div class="otpbox"><b>رمز تحقق جديد مطلوب (${n})</b><div class="cells">${'<i>·</i>'.repeat(4)}</div><p>أدخل الرمز المرسل إلى جوالك…</p></div>`;
+  [[300,1],[1600,2],[2900,3]].forEach(([t,n])=>setTimeout(()=>{if(tk!==runToken)return;const z=zone();if(z)z.insertAdjacentHTML('beforeend',otp(n))},t));
+  setTimeout(()=>{if(tk!==runToken)return;const z=zone();if(z)z.insertAdjacentHTML('beforeend',`<div class="painband">نفس الجهاز. نفس العميل. ثلاث مرات في أسبوع — <b>«وثّقنا مليون مرة وما فيه فايدة»</b></div>`)},4100);
+  setTimeout(()=>{if(tk!==runToken)return;
+    const bio=document.getElementById('bio');
+    bio.classList.add('on');bio.style.cursor='pointer';
+    bio.querySelector('p').innerHTML='<b style="color:var(--coral-t)">المس البصمة بنفسك</b> — هذا كل المطلوب منك';
+    bio.onclick=()=>{if(tk!==runToken)return;bio.onclick=null;bio.style.cursor='';bio.classList.remove('on');bio.querySelector('p').textContent='تأكيد بالسمات الحيوية…';
+      const p=PERSONAS[S.persona];
+      S.bayans.unshift({color:'mint',title:'دخول سلس — بثقة جهازك',ts:nowStr(),done:true,
+        doneText:'دخلت بالسمات الحيوية فقط — بلا رموز',
+        what:`لا رموز تحقق اليوم — جهازك موثوق منذ ${p.deviceMonths} شهراً.`,
+        why:`دخولك اليوم مثل كل مرة، فما طلبنا منك رمزاً. وأي شيء غير معتاد يرجّع التحقق كامل على طول — وما ننزل تحت حدّ ساما أبداً.`,
+        chips:[`جهازك موثوق: <b>${p.deviceMonths} شهراً</b>`,`دخولك: <b>معتاد</b>`,`طلبنا منك: <b>بصمة فقط</b>`],
+        means:`الأمان يكافئ ثقتك فيك، بدل ما يعاقب الجميع بنفس الإجراء.`});
+      vs('3 رموز تحقق في أسبوع','لمسة واحدة — والحماية أعلى');
+      capLight('ctx');renderK()};
+    vs('رمز ثالث قيد الإرسال…','بانتظار لمستك — لمسة واحدة تكفي');
+  },1200);
+}
+
+/* — 3: الإزعاج العام — */
+function scOffers(tk){
+  const zone=()=>document.getElementById('notifZoneL');
+  const items=[['إع','الإنماء فانتزي','توقّع واربح! لا تفوت الجولة'],['إع','قرض شخصي بضغطة','مبلغ يصل إلى 500,000'],['إع','بطاقة جديدة','استبدل نقاطك الآن'],['إع','عرض حصري ينتهي الليلة','سارع قبل النفاد']];
+  items.forEach((n,i)=>setTimeout(()=>{if(tk!==runToken)return;const z=zone();if(z)z.insertAdjacentHTML('afterbegin',`<div class="notif"><div class="nic">${n[0]}</div><div><b>${n[1]}</b><span>${n[2]}</span></div></div>`)},350+i*800));
+  setTimeout(()=>{if(tk!==runToken)return;const z=zone();if(z)z.insertAdjacentHTML('beforeend',`<div class="painband">4 إشعارات في دقيقة — ولا واحد يخصه. <b>«حنا ندور عروض تناسبنا»</b></div>`)},3900);
+  setTimeout(()=>{if(tk!==runToken)return;
+    S.bayans.unshift({color:'info',title:'فلتر الصلة',ts:nowStr(),done:true,
+      doneText:'حجبنا اليوم 4 إشعارات لا تخصك',
+      what:'لا إشعار يصلك بلا سبب يخصك أنت.',
+      why:'كل رسالة تمر بفلتر الصلة: هل تفيد وضعك الحالي؟ إن لم تكن كذلك — لا تُرسل. والعرض المناسب يصل في لحظته المناسبة فقط.',
+      chips:[`اليوم: <b>0 إشعار عام</b>`,`المحجوب: <b>4</b>`],
+      means:'صوت المصرف يبقى له معنى — فيسمعه العميل حين يتكلم.'});
+    vs('4 إشعارات عامة في دقيقة','صفر إزعاج — والعرض المناسب في لحظته');
+    capLight('adp');renderK()},1500);
+}
+
+/* — 4: دعم بلا ذاكرة — */
+function scSupport(tk){
+  const seqL=[["me","السلام عليكم، عندي عملية موقوفة من أمس وأبي أعرف وش صار"],["bank","عميلنا العزيز، نأسف لما واجهته. فضلاً اتصل على 920028000 واتبع الخيارات: 2 ثم 1 ثم 1 ثم 0"],["me","اتصلت أمس وشرحت كل شي! ما فيه أحد يعرف قصتي؟"],["bank","نعتذر منك. فضلاً زودنا برقم الهوية ورقم الجوال ووصف المشكلة من البداية"]];
+  seqL.forEach((m,i)=>setTimeout(()=>{if(tk!==runToken)return;const c=document.getElementById('chatL');if(c)c.insertAdjacentHTML('beforeend',`<div class="msg ${m[0]}">${m[1]}${m[0]==='bank'?'<small>رد قالب — القناة لا تعرف تاريخ العميل</small>':''}</div>`)},400+i*1100));
+  setTimeout(()=>{if(tk!==runToken)return;
+    const p=PERSONAS[S.persona];S.screen='support';renderK();
+    const seqK=[["bank kf",`أهلاً بك — أتابع معك حالتك <b>${p.caseRef}</b>: ${p.caseDesc}. تحتاج شيئاً حولها؟`],["me","أبي أتأكد إنها ما تتكرر"],["bank kf","تم — رفعنا حساسية التنبيه لهذا النمط، وسيصلك إشعارٌ بسبب أي قرار قبل تنفيذه. ولا تحتاج تعيد قصتك لأي قناة: سجل حالتك واحد في التطبيق والهاتف والفرع."]];
+    seqK.forEach((m,i)=>setTimeout(()=>{if(tk!==runToken)return;const c=document.getElementById('chatK');if(c)c.insertAdjacentHTML('beforeend',`<div class="msg ${m[0]}">${m[1]}${i===0?'<small>سجل الحالة الموحّد: القناة فتحت وهي تعرف كل السياق</small>':''}</div>`)},300+i*1100));
+    setTimeout(()=>{if(tk!==runToken)return;const s=document.getElementById('handoffSlot');if(s)s.innerHTML=`<button class="pulse-entry" style="border-color:#F2A28C55" onclick="openHandoff()"><span class="pe-ic">${IC.shield}</span><span class="pe-t"><b>تحتاج موظفاً بشرياً؟</b><span>تحدث مع موظف — قصتك تصل معه، بلا إعادة شرح</span></span><span class="pe-ar">›</span></button>`},300+seqK.length*1100);
+    vs('يعيد قصته من الصفر — للمرة الثالثة','القناة تعرفه من أول ثانية + تصعيد بشري بسياقه');
+    capLight('mem')},1600);
+}
+
+/* ================= القدرات ================= */
+/* — 5: الحجز المروري (يجيب «هل من حقهم؟») — */
+function scSeizure(tk){
+  const p=PERSONAS[S.persona];const amt=3100;const pct=Math.round(amt/p.salary*100);
+  setTimeout(()=>{if(tk!==runToken)return;
+    S.bayans.unshift({color:'amber',title:'حجزوا مبلغاً — وهذا سببه',ts:nowStr(),
+      action:'openObjection()',actionLabel:'جهّزوا اعتراضي للجهة المختصة',secondaryLabel:'',
+      what:`نفّذ المصرف أمر حجز بمبلغ ${fmt(amt)} ريال من حسابك لأمر مخالفة مرورية.`,
+      why:`المصرف ملزم بتنفيذ أمر الحجز، لكننا نوضّح لك ما جرى: المبلغ يمثل ${pct}% من راتبك هذا الشهر. ولأنظمة الحسم من الراتب حدّ أعلى، فإن رأيت أن الحسم تجاوزه، فلك حق الاعتراض أمام جهة التنفيذ — نجهّز لك تفاصيل الحالة ونوصلك بالمسار الصحيح.`,
+      chips:[`المبلغ: <b>${fmt(amt)} ريال</b>`,`نسبته من راتبك: <b>${pct}%</b>`,`نوع الأمر: <b>تنفيذ مروري</b>`],
+      means:`سؤال «هل من حقهم؟» له جواب الآن: التفاصيل أمامك كاملة، وكَفيت يجهّز اعتراضك ويوصلك بالجهة المختصة بضغطة — دون مكالمة ولا حيرة. القرار للجهة، والوضوح لك.`});
+    vs('حجز صامت — «راجع المرور»','مبلغ + سبب + نسبة + بيان الحدّ + مسار اعتراض');
+    capLight('exp');capLight('mem');renderK();
+  },700);
+}
+const CAPS=[
+  {id:'pulse',ar:'يعرف عاداتك',en:'BEHAVIORAL BASELINE',p:'البنك يعرف عاداتك أنت: متوسط حوالاتك، وجهازك، وأوقاتك. من عملياتك وحدها — لا من قاعدة على الجميع.'},
+  {id:'exp',ar:'يوصلك سبب القرار',en:'ADVERSE ACTION NOTICE',p:'كل قرار يوصلك ومعه سببه وخطوتك — لا رمز خطأ ولا صمت. ولك حقّك تعترض.'},
+  {id:'ctx',ar:'خطوات تأكيد أقل',en:'RISK-BASED AUTHENTICATION',p:'كل ما وضحت عاداتك، قلّت الخطوات المطلوبة منك. نخفّف فقط — وما ننزل تحت حدّ ساما. والقرار الأمني لنظام الحماية.'},
+  {id:'adp',ar:'شاشة تناسب حالك',en:'ADAPTIVE UI',p:'الشاشة تتغيّر حسب حالتك — يوم راتب، سفر، ضيق مالي، أو وضع ميسّر.'},
+  {id:'mem',ar:'قصتك تنتقل معك',en:'SINGLE CUSTOMER VIEW',p:'سجل واحد ينتقل معك بين التطبيق والهاتف والفرع — فما تعيد قصتك من أولها.'}
+];
+function drawCaps(){document.getElementById('caps').innerHTML=CAPS.map(c=>`<div class="cap" id="cap-${c.id}"><div class="ch"><span class="cdot"></span><div><b>${c.ar}</b></div></div><p>${c.p}</p>${c.id==='pulse'?`<button class="try" onclick="openPulse()">افتح شاشة سلوكك المعتاد ‹</button>`:`<span class="cap-hint">تضيء تلقائياً عند عملها في السيناريو</span>`}</div>`).join('')}
+function capLight(id){const el=document.getElementById('cap-'+id);if(!el)return;el.classList.add('lit');setTimeout(()=>el.classList.remove('lit'),6000)}
+function showDemoNote(ph){let t=ph.querySelector('.demo-toast');if(!t){t=document.createElement('div');t.className='demo-toast';ph.appendChild(t)}
+  t.textContent='خارج نطاق هذا النموذج — جرّب السيناريوهات والقدرات بالأسفل';t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1700)}
+
+/* ================= توصية الادخار — فعل داخل المنتج ================= */
+function savingsDone(){
+  S.bayans.unshift({color:'mint',title:'تم — بتوجيه منك',ts:nowStr(),done:true,noObj:true,
+    doneText:'حُوّلت 900 ريال لهدف الادخار',
+    what:'اكتمل تحويل الادخار الشهري.',
+    why:'اقترحنا، وأنت قررت — هذا هو الترتيب الدائم في كَفيت.',
+    chips:[`المبلغ: <b>900 ريال</b>`,`التوثيق: <b>في قراراتك</b>`],
+    means:'تعديل المبلغ أو إيقاف الاقتراح متاح من «قراراتك» في أي وقت.'});
+  capLight('adp');render();
+}
+/* ================= الاعتراض (حق نظامي — حلقة كاملة) ================= */
+function openObjection(){
+  closeSpot();
+  const sheet=document.getElementById('sheet');
+  sheet.innerHTML=`<div class="grab"></div><h3>اعتراض على قرار</h3>
+    <p>سيُسجل اعتراضك برقم مرجعي ويُعالج ضمن المدد النظامية لمعالجة الشكاوى، وتتابع حالته أولاً بأول من «قراراتك» — <b style="color:var(--text)">من دون أي مكالمة</b>.</p>
+    <div class="acts"><button class="btn-coral" style="padding:12px" onclick="submitObjection()">سجّل الاعتراض</button><button class="btn-dark" onclick="hideSheet()">تراجع</button></div>`;
+  document.getElementById('scrim').classList.add('on');sheet.classList.add('up');
+}
+function submitObjection(){
+  hideSheet();
+  const ref='KF-'+(2480+S.objections.length+1);
+  S.objections.unshift({ref,ts:nowStr()});
+  S.bayans.unshift({color:'info',title:'اعتراضك مسجل',ts:nowStr(),done:true,noObj:true,
+    doneText:`الرقم المرجعي ${ref} — تتبعه في «قراراتك»`,
+    what:'وصلنا اعتراضك — والدور علينا.',
+    why:'نعالجه ضمن المدد النظامية. وأي جديد يوصلك هنا — ما تحتاج تتصل ولا تعيد قصتك.',
+    chips:[`الرقم: <b>${ref}</b>`,`القناة: <b>من البطاقة نفسها</b>`],
+    means:'حقّك تعترض موجود في كل إشعار — مو رحلة لحالها.'});
+  capLight('mem');S.screen='qararat';render();
+}
+/* ================= إيقاف كَفيت (موافقة حقيقية) ================= */
+function openStopSheet(){
+  const sheet=document.getElementById('sheet');
+  sheet.innerHTML=`<div class="grab"></div><h3>إيقاف كَفيت وسحب الموافقة</h3>
+    <p>فور الإيقاف: يتوقف كَفيت عن قراءة أي بيانات، وتعود تجربتك العامة — التجميد الصامت والإشعارات الجماعية. ترجعه متى شئت.</p>
+    <div class="acts"><button class="btn-dark" onclick="S.kfOff=true;hideSheet();render()">أوقف كَفيت — اسحب موافقتي</button><button class="btn-coral" style="padding:12px" onclick="hideSheet()">أبقه معي</button></div>`;
+  document.getElementById('scrim').classList.add('on');sheet.classList.add('up');
+}
+/* ================= التشريح ================= */
+function openSpot(b,secs){document.getElementById('spotCard').innerHTML=bayanCard(b);
+  const t=b.title||'';
+  document.getElementById('spotNote').textContent=
+    /نظام الحماية/.test(t)?`كُتب خلال السيناريو — القرار لنظام الحماية، وكَفيت وصّل سببه ومسار حلّه.`
+   :/فوراً/.test(t)?`كُتب خلال السيناريو — الخطورة تحت الحدّ، فأرسلناها بلا ما نسألك.`
+   :`وُلّد خلال السيناريو — تأكيدٌ واحد في ${sec(secs)} بدل سلسلة تحقّق وساعات تجميد.`;
+  document.getElementById('spot').classList.add('on')}
+function closeSpot(){document.getElementById('spot').classList.remove('on')}
+
+/* ================= التفعيل ================= */
+let onbI=0;
+const ONB=[
+  {t:'تعرف على الخدمة',h:'كَفيت يرافق حسابك — <em>ولا يقرر عنك</em>',p:'خدمة في تطبيق الإنماء: كل قرار يوصلك ومعه سببه وخطوتك.',rows:[['يعرف عاداتك','متوسط حوالاتك، وجهازك، وأوقاتك — من عملياتك أنت','search'],['يطلب منك خطوات أقل','تأكيد واحد بدل سلسلة تحقّق. أما القرار الأمني فلنظام الحماية','tune'],['يرسل لك السبب','ماذا صار، وليش، ووش خطوتك — ومعها حقّك تعترض','shield']]},
+  {t:'موافقتك الصريحة',h:'يقرأ ما توافق عليه فقط — <em>وتوقفه متى شئت</em>',p:'ليفهمك كَفيت، يطّلع على: تعاملاتك، أجهزتك الموثوقة، وحساباتك عبر المصرفية المفتوحة. لا يطّلع على محادثاتك ولا موقعك، ولا تخرج بياناتك من المصرف.',rows:[['تعاملاتك وأنماط إنفاقك','أساس فهم ما هو معتاد بالنسبة لك','check'],['أجهزتك الموثوقة','أساس التحقق المتكيف','check'],['المصرفية المفتوحة','صورة أشمل لوضعك المالي — بموافقة مستقلة','check']],consent:true},
+  {t:'تفضيلاتك',h:'اضبط الخدمة كما يناسبك — <em>من اليوم الأول</em>',p:'جميع الخيارات قابلة للتعديل في أي وقت من شاشة «قراراتك».',rows:[['إشعارات ذات صلة فقط','لا تصلك أي رسالة لا تخص وضعك الحالي','toggle-on'],['الوضع الميسّر','خط أكبر وخيارات أقل — بطلبك أنت، ولا يُفعَّل تلقائياً','toggle-off']]},
+  {t:'الخدمة جاهزة',h:'كَفيت معك الآن',p:'من هذه اللحظة: أي قرار يمس حسابك يصلك ومعه سببه وخطوتك التالية، وتجد سجله كاملاً في شاشة «قراراتك».',ok:true}
+];
+function openOnb(){onbI=0;drawOnb();document.getElementById('onb').classList.add('on')}
+function closeOnb(){document.getElementById('onb').classList.remove('on')}
+function onbNext(){if(onbI<3){onbI++;drawOnb()}else{closeOnb();document.getElementById('hero').classList.contains('off')||enterStage()}}
+function drawOnb(){
+  const s=ONB[onbI];
+  document.getElementById('onbStep').textContent=`تفعيل كَفيت — الخطوة ${onbI+1} من 4`;
+  document.getElementById('onbDots').innerHTML=[0,1,2,3].map(i=>`<i class="${i===onbI?'on':''}"></i>`).join('');
+  document.getElementById('onbNext').textContent=onbI===1?'أوافق — متابعة':(onbI===3?'ابدأ التجربة':'التالي');
+  const icons={search:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></svg>',tune:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="16" cy="8" r="2.4"/><circle cx="7" cy="16" r="2.4"/></svg>',shield:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.4-3 7.5-7 9-4-1.5-7-4.6-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',check:IC.check};
+  let rows='';
+  if(s.rows)rows=`<div class="onb-rows">`+s.rows.map(r=>{
+    const tg=r[2]==='toggle-on'?`<button class="oswitch on" onclick="this.classList.toggle('on')" aria-label="${r[0]}"></button>`:r[2]==='toggle-off'?`<button class="oswitch" onclick="this.classList.toggle('on')" aria-label="${r[0]}"></button>`:'';
+    const ic=icons[r[2]]||icons.check;
+    return`<div class="orow"><div class="oi">${r[2].startsWith('toggle')?icons.shield:ic}</div><div style="flex:1"><b>${r[0]}</b><span>${r[1]}</span></div>${tg}</div>`}).join('')+`</div>`;
+  document.getElementById('onbBody').innerHTML=`<h3>${s.h}</h3><p>${s.p}</p>${s.ok?`<div class="onb-ok">${IC.okBig}</div><p style="text-align:center;font-size:12px;color:var(--muted)">إيقاف الخدمة وسحب الموافقة متاحان في أي وقت من شاشة «قراراتك»</p>`:rows}${s.consent?`<p style="font-size:11.5px;color:var(--mint-t);margin-top:12px">موافقة صريحة قابلة للسحب في أي وقت — وفق نظام حماية البيانات الشخصية</p>`:''}`;
+}
+
+/* ================= تنقل وحالة ================= */
+function enterStage(){document.getElementById('hero').classList.add('off')}
+function showHero(){document.getElementById('hero').classList.remove('off')}
+function openQararat(){S.screen='qararat';render()}
+function openPulse(){S.screen='pulse';renderK();capLight('pulse')}
+function goHome(){S.screen='home';render()}
+const MOMENTS=[
+  {id:'normal',ar:'اليوم العادي',d:'توازن هادئ — لا إشعارات بلا سبب',ic:'home'},
+  {id:'salary',ar:'يوم الراتب',d:'الالتزامات أولاً، واقتراح ادخار واحد',ic:'pay'},
+  {id:'travel',ar:'السفر',d:'عملات وحدود البطاقة وأمان مكيّف',ic:'store'},
+  {id:'pressure',ar:'الضغط المالي',d:'وضع هادئ — تُحجب عروض التمويل',ic:'shieldPlain'},
+  {id:'easy',ar:'الوضع الميسّر',d:'بطلب العميل: خط أكبر وخيارات أقل',ic:'grid'}
+];
+function drawMoments(){document.getElementById('moments').innerHTML=MOMENTS.map(m=>`<button class="moment ${S.ctx===m.id?'on':''}" onclick="setCtx('${m.id}')"><div class="mic">${IC[m.ic]||IC.grid}</div><b>${m.ar}</b><p>${m.d}</p></button>`).join('')}
+function setCtx(c){S.ctx=c;S.screen='home';if(c!=='normal')capLight('adp');renderK();drawMoments();drawDial();
+  const ph=document.getElementById('phK');ph.classList.remove('flash');void ph.offsetWidth;ph.classList.add('flash');
+  centerDuel()}
+function setPersona(k){S.persona=k;S.bayans=[];S.objections=[];S.frozen=false;S.mode=null;S.screen='home';runToken++;clearZones();hideSheet();const _b=document.getElementById('bio');_b.onclick=null;_b.style.cursor='';_b.classList.remove('on');document.getElementById('vscore').classList.remove('show');document.querySelectorAll('.scen').forEach(el=>el.classList.remove('on'));render()}
+function resetAll(){setPersona(S.persona);setCtx('normal');closeSpot();closeOnb();window.scrollTo({top:0,behavior:'smooth'})}
+
+function drawScens(){document.getElementById('scens').innerHTML=SCENS.map(s=>`<button class="scen ${s.star?'starred':''}" data-id="${s.id}" onclick="playScenario('${s.id}')">${s.star?'<span class="star">السيناريو النجم</span>':''}<div class="q">${s.quote}</div><div class="src"><i></i>${s.src} — ${s.label}</div><div class="go">شغّل السيناريو وشاهد الفرق ‹</div></button>`).join('')}
+
+function supportKfeet(){return`<div style="display:flex;align-items:center;gap:10px;padding:10px 2px 2px"><button style="background:none;border:none;color:var(--coral-t);font-size:18px" onclick="goHome()">‹</button><b style="font-size:17px">الدعم — كَفيت معك</b></div><div class="chat" id="chatK"></div><div id="handoffSlot"></div>`}
+function openHandoff(){
+  const p=PERSONAS[S.persona];
+  const sheet=document.getElementById('sheet');
+  sheet.innerHTML=`<div class="grab"></div><h3>التحويل إلى موظف</h3>
+    <p>سيصل الموظفَ <b style="color:var(--text)">كل سياقك جاهزاً</b> — لن تعيد شرح شيء:</p>
+    <div class="card" style="margin-top:10px">
+      <div class="txn"><div class="tic">#</div><div class="tt"><b>رقم الحالة ${p.caseRef}</b><span>${p.caseDesc}</span></div></div>
+      <div class="txn"><div class="tic">س ح</div><div class="tt"><b>سجل الحالة الكامل</b><span>محادثتك الحالية + القرارات السابقة + مسارها الزمني</span></div></div>
+      <div class="txn"><div class="tic">ط ل</div><div class="tt"><b>طلبك</b><span>«التأكد أن المشكلة لا تتكرر» — مُلخّص ومرفق</span></div></div>
+    </div>
+    <div class="acts"><button class="btn-coral" style="padding:12px" onclick="handoffDone()">حوّلني الآن — والسياق معي</button><button class="btn-dark" onclick="hideSheet()">أكمل مع كَفيت</button></div>`;
+  document.getElementById('scrim').classList.add('on');sheet.classList.add('up');
+}
+function handoffDone(){
+  hideSheet();
+  const slot=document.getElementById('handoffSlot');
+  if(slot)slot.innerHTML=`<div class="strip" style="margin-top:8px"><span style="margin-top:2px">${IC.check}</span><div><b>حُوّلت لموظف مختص.</b> وصله سياقك كاملاً — يفتح المحادثة وهو يعرف قصتك، بلا إعادة شرح. (يعالج «التطبيق كله رد آلي ولا أحد يفهم».)</div></div>`;
+  capLight('mem');
+}
+
+function renderK(){
+  const p=PERSONAS[S.persona];
+  document.getElementById('avK').textContent=p.av;
+  document.getElementById('nmK').textContent=p.name;
+  document.getElementById('bodyK').innerHTML=S.screen==='qararat'?qararatScreen():(S.screen==='pulse'?pulseScreen():(S.screen==='support'?supportKfeet():homeKfeet()));
+  document.getElementById('navK').innerHTML=nav();
+}
+function renderL(){
+  const p=PERSONAS[S.persona];
+  document.getElementById('avL').textContent=p.av;
+  document.getElementById('nmL').textContent=p.name;
+  document.getElementById('bodyL').innerHTML=homeLegacy();
+  document.getElementById('navL').innerHTML=nav();
+}
+function render(){renderK();renderL()}
+setInterval(()=>{const t=nowStr().slice(0,5);document.getElementById('clkK').textContent=t;document.getElementById('clkL').textContent=t},1000);
+
+/* الأزرار خارج نطاق النموذج: استجابة موحدة بدل الصمت */
+document.querySelectorAll('.phone').forEach(ph=>ph.addEventListener('click',e=>{
+  if(e.target.closest('.qa .t,.nav .ni,.sec-head a,.promo,.dead'))showDemoNote(ph);
+}));
+
+drawMoments();drawScens();drawCaps();render();drawDial();setView('client');
+</script>
+</body>
+</html>
